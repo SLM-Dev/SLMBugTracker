@@ -17,11 +17,9 @@ namespace SLMBugTracker.Models
         [Display(Name = "First Name")]
 
         public string FirstName { get; set; }
-        
+         
         // Field Cannot Be NULL
         [Required]
-        
-
         
         [Display(Name = "Last Name")]
         //Create a new property called LastName
