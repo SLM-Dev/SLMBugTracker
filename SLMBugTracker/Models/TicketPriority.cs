@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace SLMBugTracker.Models
 {
-    public class TicketType
+    public class TicketPriority
     {
         public int Id { get; set; }
-        
-        [DisplayName("Type Name")]
+
+        [DisplayName("Priority Name")]
         public string Name { get; set; }
     }
-
 }
