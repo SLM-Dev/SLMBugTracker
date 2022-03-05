@@ -9,19 +9,19 @@ namespace SLMBugTracker.Models
     public class TicketHistory
     {
         public int Id { get; set; }
-        
+
         //Creats a foreign key for the Ticket
 
         [DisplayName("Ticket")]
         public int TicketId { get; set; }
 
         //Creates a foreign key for the User
-        
+
         [DisplayName("Updated Item")]
         public string Property { get; set; }
 
         //Creates a foreign key for the TicketStatus
-            
+
         [DisplayName("Previous")]
         public int OldValue { get; set; }
 
@@ -46,6 +46,6 @@ namespace SLMBugTracker.Models
 
         public virtual BTUser User { get; set; }
     }
-    }
+}
 
 
