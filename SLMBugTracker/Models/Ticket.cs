@@ -83,7 +83,7 @@ namespace SLMBugTracker.Models
           HashSet<TicketComment>();
         public virtual ICollection<TicketAttachment> Attachments { get; set; } = new HashSet<TicketAttachment>();
         public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
-        public virtual ICollection<History> Histories { get; set; } = new
+        public virtual ICollection<TicketHistory> Histories { get; set; } = new 
           HashSet<TicketHistory>();
 
 
