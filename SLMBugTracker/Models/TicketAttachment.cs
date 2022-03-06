@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,10 +26,14 @@ namespace SLMBugTracker.Models
         [DisplayName("Team Member")]
         public string UserId { get; set; }
 
+        //Create a foreign key for the Description
+        [DisplayName("File Description")]
+        public string Description { get; set; }
+
         [NotMapped]
         [DataType(DataType.Upload)]
 
-        // Manupliation Properties
+        // 
         public IFormFile FormFile { get; set; }
         [DisplayName("File Name")]
         public string FileName { get; set; }
