@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel;
 
 namespace SLMBugTracker.Models
 {
@@ -33,6 +35,35 @@ namespace SLMBugTracker.Models
         [Display(Name = "Full Name")]
 
         public string FullName { get { return $"{FirstName} {LastName}"; } }
+
+        [NotMapped]
+        [DataType(DataType.Upload)]
+        
+       
+        //IFormFile Avatar
+        public IFormFile AvatarFormFile { get; set; }
+
+        [DisplayName("Avatar")]
+
+        public string AvatarFileName { get; set; }
+        public byte[] AvatarFileData { get; set; }
+
+        [Display(Name = "File Extension")]
+
+
+        public string AvatarContentType { get; set; }
+
+
+        public int? CompanyId { get; set; }
+
+
+        //Navigation properties for the Company
+        public virtual Company Company { get; set; }
+
+        public virtual ICollection<Project> Projects { get; set; }
+        
+
+
 
     }
 }
