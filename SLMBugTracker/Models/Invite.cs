@@ -74,7 +74,7 @@ namespace SLMBugTracker.Models
 
         public virtual BTUser Invitee { get; set; }
 
-        
+
         
 
        
