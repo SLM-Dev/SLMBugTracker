@@ -27,6 +27,7 @@ namespace SLMBugTracker.Models
 
         public virtual ICollection<Project> Projects { get; set; }
 
+        // create relationship to Invites
 
 
 
