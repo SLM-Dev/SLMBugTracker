@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,24 +11,24 @@ namespace SLMBugTracker.Models
     {
 
         public int Id { get; set; }
-        
+
         //Data Annotations
-        [Display(Name = "Member Comment")]
+        [DisplayName("Member Comment")]
         public string Comment { get; set; }
-        
+
 
         //Created
-        [Display(Name = "Date")]
+        [DisplayName("Date")]
         public DateTimeOffset Created { get; set; }
-        
+
         //Ticket Id
         //Create a foreign key for the Ticket
-        [Display(Name = "Ticket")]
+        [DisplayName("Ticket")]
         public int TicketId { get; set; }
-        
+
         //UserId
         //Creats a foreign key for the Team Member
-        [Display(Name = "Team Member")]
+        [DisplayName("Team Member")]
 
         public string UserId { get; set; }
 

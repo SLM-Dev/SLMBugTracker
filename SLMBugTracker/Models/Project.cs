@@ -58,7 +58,7 @@ namespace SLMBugTracker.Models
         [DisplayName("File Extension")]
         public string ImageContentType { get; set; }
 
-        [Display(Name = "Archived")]
+        [DisplayName("Archived")]
         public bool Archived { get; set; }
 
 

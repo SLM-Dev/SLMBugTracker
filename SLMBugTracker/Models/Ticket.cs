@@ -15,17 +15,17 @@ namespace SLMBugTracker.Models
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Title")]
+        [DisplayName("Title")]
         public string Title { get; set; }
 
 
         [Required]
         //Data Annotations
-        [Display(Name = "Description")]
+        [DisplayName("Description")]
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Created")]
+        [DisplayName("Created")]
         public DateTimeOffset Created { get; set; }
 
 
