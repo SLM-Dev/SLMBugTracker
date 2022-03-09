@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace SLMBugTracker.Services.Interfaces
 {
     public interface IBTRolesService
-    {
+    {  
      public Task<bool> IsUserInRoleAsync
     } 
 }
