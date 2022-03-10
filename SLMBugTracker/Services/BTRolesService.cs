@@ -26,9 +26,10 @@ namespace SLMBugTracker.Services
         }
 
 
-        public Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
+        public async Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            bool result = (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
+            return result;
         }
 
         public Task<string> GetRoleNameByIdAsync(string roleId)
