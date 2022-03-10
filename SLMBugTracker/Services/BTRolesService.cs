@@ -39,9 +39,9 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
+        public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
-            
+            IEnumerable<string> result = await _userManager.GetRolesAsync(user);
         }
 
         public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
