@@ -61,9 +61,10 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
+        public async Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            bool result = await _userManager.IsInRoleAsync(user, roleName);
+            return result;
         }
 
         public Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
