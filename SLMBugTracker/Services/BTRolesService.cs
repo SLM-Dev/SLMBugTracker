@@ -42,11 +42,12 @@ namespace SLMBugTracker.Services
         public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
             IEnumerable<string> result = await _userManager.GetRolesAsync(user);
+            return result;
         }
 
-        public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            List<BTUser> user =(await _userManager.GetUsersInRoleAsync(roleName)).ToList();
         }
 
         public Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
