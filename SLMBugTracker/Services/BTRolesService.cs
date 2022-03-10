@@ -17,7 +17,7 @@ namespace SLMBugTracker.Services
         private readonly UserManager<BTUser> _userManager;
 
         public BTRolesService(ApplicationDbContext context,
-                              RoleManager<IdentityRole> roleManager, 
+                              RoleManager<IdentityRole> roleManager,
                               UserManager<BTUser> userManager)
         {
             _context = context;
@@ -32,14 +32,16 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        public Task<string> GetRoleNameByIdAsync(string roleId)
+        public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
-            throw new NotImplementedException();
+            IdentityRole role = _context.Roles.Find(roleId);
+            string result = await _roleManager.GetRoleNameAsync(role);
+            return result;
         }
 
         public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
