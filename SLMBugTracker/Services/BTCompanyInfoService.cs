@@ -15,9 +15,12 @@ namespace SLMBugTracker.Services
         {
             _context = context;
         }
-        public Task<List<BTUser>> GetAllMembersAsync(int companyId)
+        
+        public async Task<List<BTUser>> GetAllMembersAsync(int companyId)
         {
-            throw new NotImplementedException();
+            List<BTUser> result = new List<BTUser>();
+
+            result = await _context.BTUsers.Where(u => u.CompanyId == companyId).ToListAsync();
         }
 
         public Task<List<Project>> GetAllProjectsAsync(int companyId)
