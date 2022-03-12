@@ -7,7 +7,7 @@ namespace SLMBugTracker.Services
 {
     public class BTCompanyInfoService 
     {
-         
+        
         
     }
 }
