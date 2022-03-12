@@ -17,7 +17,7 @@ namespace SLMBugTracker.Services
         {
             _context = context;
         }
-        
+
         public async Task<List<BTUser>> GetAllMembersAsync(int companyId)
         {
             List<BTUser> result = new();
@@ -32,18 +32,25 @@ namespace SLMBugTracker.Services
             List<Project> result = new();
 
             result = await _context.Projects.Where(p => p.CompanyId == companyId)
-            .Include(p=>p.Members)
-            .Include(p=>p.Tickets)
-            .Include(p=>p.ProjectPriority)
-            .ToListAsync();
-            
+                                   .Include(p => p.Members)
+                                   .Include(p => p.Tickets)
+                                       .ThenInclude(t => t.Comments)
+                                   .Include(p => p.Tickets)
+                                       .ThenInclude(t => t.TicketStatus)
+                                   .Include(p => p.Tickets)
+                                       .ThenInclude(t => t.TicketPriority)
+                                   .Include(p => p.Tickets)
+                                       .ThenInclude(t => t.TicketType)
+                                   .Include(p => p.ProjectPriority)
+                                   .ToListAsync();
+
 
             return result;
         }
 
         public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
-            
+
         }
 
         public Task<Company> GetCompanyInfoByIdAsync(int? company)
