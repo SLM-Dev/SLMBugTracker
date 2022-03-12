@@ -21,6 +21,8 @@ namespace SLMBugTracker.Services
             List<BTUser> result = new List<BTUser>();
 
             result = await _context.BTUsers.Where(u => u.CompanyId == companyId).ToListAsync();
+
+            return result;
         }
 
         public Task<List<Project>> GetAllProjectsAsync(int companyId)
