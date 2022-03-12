@@ -31,7 +31,7 @@ namespace SLMBugTracker.Services
         {
             List<Project> result = new();
 
-            result = await _context.Projects.Where(p => p.CompanyId == companyId).
+            result = await _context.Projects.Where(p => p.CompanyId == companyId)
             .Include(p=>p.Members)
             .Include(p=>p.Tickets)
             .Include(p=>p.ProjectPriority)
