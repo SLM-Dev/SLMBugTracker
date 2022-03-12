@@ -9,6 +9,12 @@ namespace SLMBugTracker.Services
 {
     public class BTCompanyInfoService : IBTCompanyInfoService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTCompanyInfoService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public Task<List<BTUser>> GetAllMembersAsync(int companyId)
         {
             throw new NotImplementedException();
