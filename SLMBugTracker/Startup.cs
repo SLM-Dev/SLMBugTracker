@@ -8,9 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SLMBugTracker.Data;
-using SLMBugTracker.Models;
-using SLMBugTracker.Services;
-using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,18 +28,12 @@ namespace SLMBugTracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<BTUser, IdentityRole> (options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
-                .AddDefaultTokenProviders();
-                
-                services.AddScoped<IBTRolesService, BTRolesService>();
-                
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
         }
 
