@@ -50,7 +50,14 @@ namespace SLMBugTracker.Services
 
         public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
+            List<Ticket> result = new List<Ticket>();
+            List<Project> projects = new();
 
+            projects = await GetAllProjectsAsync(companyId);
+
+            result = projects.SelectMany(p => p.Tickets).ToList();
+
+            return result;
         }
 
         public Task<Company> GetCompanyInfoByIdAsync(int? company)
