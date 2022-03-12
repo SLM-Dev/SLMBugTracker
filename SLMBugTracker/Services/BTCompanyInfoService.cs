@@ -1,4 +1,6 @@
-﻿using SLMBugTracker.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SLMBugTracker.Data;
+using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,21 +20,30 @@ namespace SLMBugTracker.Services
         
         public async Task<List<BTUser>> GetAllMembersAsync(int companyId)
         {
-            List<BTUser> result = new List<BTUser>();
+            List<BTUser> result = new();
 
-            result = await _context.BTUsers.Where(u => u.CompanyId == companyId).ToListAsync();
+            result = await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
 
             return result;
         }
 
-        public Task<List<Project>> GetAllProjectsAsync(int companyId)
+        public async Task<List<Project>> GetAllProjectsAsync(int companyId)
         {
-            throw new NotImplementedException();
+            List<Project> result = new();
+
+            result = await _context.Projects.Where(p => p.CompanyId == companyId).
+            .Include(p=>p.Members)
+            .Include(p=>p.Tickets)
+            .Include(p=>p.ProjectPriority)
+            .ToListAsync();
+            
+
+            return result;
         }
 
-        public Task<List<Ticket>> GetAllTicketsAsync(int companyId)
+        public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task<Company> GetCompanyInfoByIdAsync(int? company)
