@@ -70,9 +70,23 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        public Task<Company> GetCompanyInfoByIdAsync(int? company)
+        public async Task<Company> GetCompanyInfoByIdAsync(int? company)
         {
-            throw new NotImplementedException();
+            Company result = new();
+
+            if (companyId != null)
+            {
+
+                result = await _context.Companies
+                        .Include(c => c.Members)
+                        .Include(c => c.Projects)
+                        .Include(c => c.Invites)
+                        .FirstOrDefaultAsync(c => c.Id == companyId);
+
+
+
+            }
+            return result;
         }
     }
 }
