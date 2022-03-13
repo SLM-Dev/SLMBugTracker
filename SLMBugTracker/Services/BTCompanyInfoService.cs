@@ -70,7 +70,7 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        public async Task<Company> GetCompanyInfoByIdAsync(int? company)
+        public async Task<Company> GetCompanyInfoByIdAsync(int? companyId)
         {
             Company result = new();
 
@@ -78,10 +78,10 @@ namespace SLMBugTracker.Services
             {
 
                 result = await _context.Companies
-                        .Include(c => c.Members)
-                        .Include(c => c.Projects)
-                        .Include(c => c.Invites)
-                        .FirstOrDefaultAsync(c => c.Id == companyId);
+                                       .Include(c => c.Members)
+                                       .Include(c => c.Projects)
+                                       .Include(c => c.Invites)
+                                       .FirstOrDefaultAsync(c => c.Id == companyId);
 
 
 
