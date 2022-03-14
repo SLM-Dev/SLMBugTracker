@@ -10,8 +10,12 @@ namespace SLMBugTracker.Services
 {
     public class BTProjectService : IBTProjectService
     {
+        private readonly ApplicationDbContext _context;
 
-    public BTProjectService(ApplicationDbContext context)
+        public BTProjectService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public async Task AddNewProjectAsync(Project project)
         {
             _context.Add(project);
