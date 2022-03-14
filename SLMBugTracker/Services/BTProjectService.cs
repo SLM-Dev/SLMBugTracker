@@ -140,6 +140,7 @@ namespace SLMBugTracker.Services
         public async Task<int> LookupProjectPriorityId(string priorityName)
         {
             int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
+            return priorityId;
         }
 
         public Task RemoveProjectManagerAsync(int projectId)
