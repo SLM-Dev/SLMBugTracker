@@ -17,6 +17,7 @@ namespace SLMBugTracker.Services
         {
             _context = context;
         }
+        // CRUD - Create
         public async Task AddNewProjectAsync(Project project)
         {
             _context.Add(project);
@@ -38,6 +39,7 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
+        // CRUD - Archive (Delete)
         public async Task ArchiveProjectAsync(Project project)
         {
             project.Archived = true;
@@ -70,6 +72,7 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
+        // CRUD - Read
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
             Project project = await _context.Projects
@@ -130,6 +133,7 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
+        // CRUD - Update
         public async Task UpdateProjectAsync(Project project)
         {
             _context.Update(project);
