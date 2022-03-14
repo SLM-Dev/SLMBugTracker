@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SLMBugTracker.Services.Interfaces
 {
-   public interface IBTProjectService
+    public interface IBTProjectService
     {
         public Task AddNewProjectAsync(Project project);
 
@@ -51,3 +51,4 @@ namespace SLMBugTracker.Services.Interfaces
         public Task UpdateProjectAsync(Project project);
 
     }
+}

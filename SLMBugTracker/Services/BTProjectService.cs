@@ -52,9 +52,33 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetAllProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            throw new NotImplementedException();
+            List<Project> projects = new();
+            projects = await _context.Projects.Where(p => p.CompanyId == companyId)
+                                         .Include(p => p.Members)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.Comments)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.Attachments)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.History)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.Notifications)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.DeveloperUser)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.OwnerUser)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.TicketStatus)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.TicketPriority)
+                                         .Include(p => p.Tickets)
+                                             .ThenInclude(t => t.TicketType)
+                                         .Include(p => p.ProjectPriority)
+                                         .ToListAsync();
+        return projects;
+
         }
 
         public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
