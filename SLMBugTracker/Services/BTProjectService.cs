@@ -81,22 +81,21 @@ namespace SLMBugTracker.Services
 
         }
 
-        public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            List<Project> projects = await GetAllProjectsByCompany(companyId);
+
         }
 
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
             List<Project> projects = await GetAllProjectsByCompany(companyId);
+            
             return projects.Where(p => p.Archived == true).ToList();
         }
 
-        public async Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
-        {
-            
-        }
-
+        public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
+        
         // CRUD - Read
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
@@ -138,9 +137,9 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> LookupProjectPriorityId(string priorityName)
+        public async Task<int> LookupProjectPriorityId(string priorityName)
         {
-            throw new NotImplementedException();
+            int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
         }
 
         public Task RemoveProjectManagerAsync(int projectId)
