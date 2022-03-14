@@ -139,7 +139,7 @@ namespace SLMBugTracker.Services
         }
 
         public Task<bool> IsUserOnProjectAsync(string userId, int projectId)
-        {
+        { 
             throw new NotImplementedException();
         }
 
