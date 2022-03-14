@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Models;
+﻿using SLMBugTracker.Data;
+using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SLMBugTracker.Services
     public class BTProjectService : IBTProjectService
     {
 
-        
+    public BTProjectService(ApplicationDbContext context)
         public async Task AddNewProjectAsync(Project project)
         {
             _context.Add(project);
