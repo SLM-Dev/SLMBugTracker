@@ -9,9 +9,12 @@ namespace SLMBugTracker.Services
 {
     public class BTProjectService : IBTProjectService
     {
+
+        
         public async Task AddNewProjectAsync(Project project)
         {
-
+            _context.Add(project);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> AddNewProjectManagerAsync(string userId, int projectId)
