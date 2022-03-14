@@ -55,7 +55,8 @@ namespace SLMBugTracker.Services
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
             List<Project> projects = new();
-            projects = await _context.Projects.Where(p => p.CompanyId == companyId)
+
+            projects = await _context.Projects.Where(p => p.CompanyId == companyId && p.Archived == false)
                                          .Include(p => p.Members)
                                          .Include(p => p.Tickets)
                                              .ThenInclude(t => t.Comments)
@@ -97,7 +98,9 @@ namespace SLMBugTracker.Services
             return projects.Where(p => p.Archived == true).ToList();
         }
 
-        public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
+        public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId){
+            throw new NotImplementedException();
+        }
         
         // CRUD - Read
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
@@ -135,7 +138,7 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsUserOnProject(string userId, int projectId)
+        public Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
             throw new NotImplementedException();
         }
