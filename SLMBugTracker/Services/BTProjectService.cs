@@ -84,6 +84,9 @@ namespace SLMBugTracker.Services
         public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
             List<Project> projects = await GetAllProjectsByCompany(companyId);
+            int projectId = await LookupProjectPriorityId(priorityName);
+
+            return projects.Where(p => p.ProjectPriorityId == projectId).ToList();
 
         }
 
