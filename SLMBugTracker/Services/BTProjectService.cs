@@ -80,9 +80,9 @@ namespace SLMBugTracker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
+        public async Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
         {
-            throw new NotImplementedException();
+            
         }
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
