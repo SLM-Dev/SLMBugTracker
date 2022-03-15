@@ -194,9 +194,23 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task RemoveUserFromProjectAsync(string userId, int projectId)
+        public async Task RemoveUserFromProjectAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                BTUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                Project project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+                if (await IsUserOnProjectAsync(userId, projectId))
+                {
+                    project.Members.Remove(user);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
         public Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
