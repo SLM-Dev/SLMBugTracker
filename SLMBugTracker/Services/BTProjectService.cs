@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.Enums;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,13 @@ namespace SLMBugTracker.Services
 
         public async Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
         {
-            
+            List<BTUser> developers = await GetProjectMembersByRoleAsync(projectId, Roles.Developer.ToString());
+            List<BTUser> submitters = await GetProjectMembersByRoleAsync(projectId, Roles.Submitter.ToString());
+            List<BTUser> admit = await GetProjectMembersByRoleAsync(projectId, Roles.Admin.ToString());
+
+            List<BTUser> teamMembers = developers.Concat(submitters).Concat(admins).ToList();
+
+            return teamMembers;
         }
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
