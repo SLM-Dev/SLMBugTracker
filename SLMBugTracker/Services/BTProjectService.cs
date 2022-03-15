@@ -237,7 +237,7 @@ namespace SLMBugTracker.Services
             return priorityId;
         }
 
-        public Task RemoveProjectManagerAsync(int projectId)
+        public async Task RemoveProjectManagerAsync(int projectId)
         {
             throw new NotImplementedException();
         }
@@ -269,10 +269,32 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
+        public async Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
         {
-            throw new NotImplementedException();
+             try
+            {
+                List<BTUser> members = await GetProjectMembersByRoleAsync(projectId, role);
+                Project project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+              foreach (BTUser btUser in members)
+            {
+                try
+                {
+                    project.Members.Remove(btUser);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"**** ERROR **** Error Removing Users from project. ---> {ex.Message}");
+            throw;
+        }
+    }
 
         // CRUD - Update
         public async Task UpdateProjectAsync(Project project)
