@@ -34,9 +34,40 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> AddUserToProjectAsync(string userId, int projectId)
+        public async Task<bool> AddUserToProjectAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            BTUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                Project project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+                if (!await IsUserOnProjectAsync(userId, projectId))
+                {
+                    try
+                    {
+
+                        project.Members.Add(user);
+                        await _context.SaveChangesAsync();
+                        return true;
+
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+
+            }
+
         }
 
         // CRUD - Archive (Delete)
@@ -78,7 +109,7 @@ namespace SLMBugTracker.Services
                                              .ThenInclude(t => t.TicketType)
                                          .Include(p => p.ProjectPriority)
                                          .ToListAsync();
-        return projects;
+            return projects;
 
         }
 
@@ -94,14 +125,15 @@ namespace SLMBugTracker.Services
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
             List<Project> projects = await GetAllProjectsByCompany(companyId);
-            
+
             return projects.Where(p => p.Archived == true).ToList();
         }
 
-        public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId){
+        public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
+        {
             throw new NotImplementedException();
         }
-        
+
         // CRUD - Read
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
@@ -139,12 +171,12 @@ namespace SLMBugTracker.Services
         }
 
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
-        { 
+        {
             Project project = await _context.Projects.Include(p => p.Members).FirstOrDefaultAsync(p => p.Id == projectId);
 
             bool result = false;
 
-            if(project != null)
+            if (project != null)
             {
                 result = project.Members.Any(m => m.Id == userId);
             }
