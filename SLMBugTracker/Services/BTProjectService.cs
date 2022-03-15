@@ -201,15 +201,23 @@ namespace SLMBugTracker.Services
                 BTUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
                 Project project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
 
-                if (await IsUserOnProjectAsync(userId, projectId))
+                try
                 {
-                    project.Members.Remove(user);
-                    await _context.SaveChangesAsync();
+                    if (await IsUserOnProjectAsync(userId, projectId))
+                    {
+                        project.Members.Remove(user);
+                        await _context.SaveChangesAsync();
+                    }
+                    
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                Console.WriteLine($"Error removing user from project: {ex.Message}");
             }
         }
 
