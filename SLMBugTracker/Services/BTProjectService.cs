@@ -27,7 +27,7 @@ namespace SLMBugTracker.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> AddNewProjectManagerAsync(string userId, int projectId)
+        public Task<bool> AddNewProjectManagerAsync(string userId, int projectId)
         {
             throw new NotImplementedException();
         }
@@ -43,24 +43,25 @@ namespace SLMBugTracker.Services
                 {
                     await RemoveProjectManagerAsync(projectId);
                 }
-            catch (Exception ex)
+                catch (Exception ex)
                 {
-                Console.WriteLine($"**** ERROR **** Error Removing current PM. ---> {ex.Message}");
-                return false;
+                    Console.WriteLine($"**** ERROR **** Error Removing current PM. ---> {ex.Message}");
+                    return false;
                 }
             }
-        // Add the new PM    
-        try
-        {
-            await AddUserToProjectAsync(userId, projectId);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"**** ERROR **** Error adding new PM. ---> {ex.Message}");
-            return false;
-        }
-        
+
+            // Add the new PM    
+            try
+            {
+                await AddUserToProjectAsync(userId, projectId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"**** ERROR **** Error adding new PM. ---> {ex.Message}");
+                return false;
+            }
+
         }
 
         public async Task<bool> AddUserToProjectAsync(string userId, int projectId)
