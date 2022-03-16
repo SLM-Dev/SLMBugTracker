@@ -260,7 +260,25 @@ namespace SLMBugTracker.Services
 
         public async Task RemoveProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            Project projects = await _context.Projects
+                                             .Include(p => p.Members)
+                                             .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            try
+            {
+                foreach (BTUser member in projects?.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                    {
+                        await RemoveUserFromProjectAsync(member.Id, projectId);
+                    }
+                }
+            }
+            catch
+            {
+
+                throw;
+            }
         }
 
         public async Task RemoveUserFromProjectAsync(string userId, int projectId)
