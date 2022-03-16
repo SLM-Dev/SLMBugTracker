@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SLMBugTracker.Data;
 using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
@@ -78,9 +79,9 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<Ticket> GetTicketByIdAsync(int ticketId)
+        public async Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
         public Task<BTUser> GetTicketDeveloperAsync(int ticketId)
