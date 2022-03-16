@@ -11,7 +11,7 @@ namespace SLMBugTracker.Services
 {
     public class BTTicketService : IBTTicketService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;   
 
         public BTTicketService (ApplicationDbContext context)
         {
