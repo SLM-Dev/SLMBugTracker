@@ -113,9 +113,10 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateTicketAsync(Ticket ticket)
+        public async Task UpdateTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Update(ticket);
+            await _context.SaveChangesAsync();
         }
     }
 }
