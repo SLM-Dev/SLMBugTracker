@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Models;
+﻿using SLMBugTracker.Data;
+using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,17 @@ namespace SLMBugTracker.Services
 {
     public class BTTicketService : IBTTicketService
     {
-        public Task AddNewTicketAsync(Ticket ticket)
+        private readonly ApplicationDbContext _context;
+
+        public BTTicketService (ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task AddNewTicketAsync(Ticket ticket)
+        {
+            _context.Add(ticket);
+            await _context.SaveChangesAsync();
         }
 
         public Task ArchiveTicketAsync(Ticket ticket)
