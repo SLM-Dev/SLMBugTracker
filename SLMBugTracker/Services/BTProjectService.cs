@@ -85,7 +85,7 @@ namespace SLMBugTracker.Services
         {
             List<BTUser> developers = await GetProjectMembersByRoleAsync(projectId, Roles.Developer.ToString());
             List<BTUser> submitters = await GetProjectMembersByRoleAsync(projectId, Roles.Submitter.ToString());
-            List<BTUser> admit = await GetProjectMembersByRoleAsync(projectId, Roles.Admin.ToString());
+            List<BTUser> admins = await GetProjectMembersByRoleAsync(projectId, Roles.Admin.ToString());
 
             List<BTUser> teamMembers = developers.Concat(submitters).Concat(admins).ToList();
 
@@ -154,9 +154,21 @@ namespace SLMBugTracker.Services
             return project;
         }
 
-        public Task<BTUser> GetProjectManagerAsync(int projectId)
+        public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            Project project = await _context.Projects
+                                            .Include(p => p.Members)
+                                            .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            foreach (BTUser member in project?.Members)
+            {
+                if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                {
+                    return member;
+                }
+            }
+
+            return null;
         }
 
         public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
@@ -175,7 +187,7 @@ namespace SLMBugTracker.Services
                 }
             }
             return members;
-            
+
         }
 
         public Task<List<BTUser>> GetSubmittersOnProjectAsync(int projectId)
@@ -184,41 +196,41 @@ namespace SLMBugTracker.Services
         }
 
         public async Task<List<Project>> GetUserProjectsAsync(string userId)
-         {
-        try
         {
-            List<Project> userProjects = (await _context.Users
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(p => p.Company)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(p => p.Members)
-                                                        .Include(u => u.Projects)
-                                                           .ThenInclude(p => p.Tickets)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(t => t.Tickets)
-                                                                .ThenInclude(t => t.DeveloperUser)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(t => t.Tickets)
-                                                                .ThenInclude(t => t.OwnerUser)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(t => t.Tickets)
-                                                                .ThenInclude(t => t.TicketPriority)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(t => t.Tickets)
-                                                                .ThenInclude(t => t.TicketStatus)
-                                                        .Include(u => u.Projects)
-                                                            .ThenInclude(t => t.Tickets)
-                                                                .ThenInclude(t => t.TicketType)
-                                                        .FirstOrDefaultAsync(u => u.Id == userId)).Projects.ToList();
+            try
+            {
+                List<Project> userProjects = (await _context.Users
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(p => p.Company)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(p => p.Members)
+                                                            .Include(u => u.Projects)
+                                                               .ThenInclude(p => p.Tickets)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(t => t.Tickets)
+                                                                    .ThenInclude(t => t.DeveloperUser)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(t => t.Tickets)
+                                                                    .ThenInclude(t => t.OwnerUser)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(t => t.Tickets)
+                                                                    .ThenInclude(t => t.TicketPriority)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(t => t.Tickets)
+                                                                    .ThenInclude(t => t.TicketStatus)
+                                                            .Include(u => u.Projects)
+                                                                .ThenInclude(t => t.Tickets)
+                                                                    .ThenInclude(t => t.TicketType)
+                                                            .FirstOrDefaultAsync(u => u.Id == userId)).Projects.ToList();
 
-            return userProjects;
+                return userProjects;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"**** ERROR **** Error Getting usser projects list. ---> {ex.Message}");
+                throw;
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"**** ERROR **** Error Getting usser projects list. ---> {ex.Message}");
-            throw;
-        }
-    }
 
         public async Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
         {
@@ -265,7 +277,7 @@ namespace SLMBugTracker.Services
                         project.Members.Remove(user);
                         await _context.SaveChangesAsync();
                     }
-                    
+
                 }
                 catch (Exception)
                 {
@@ -280,30 +292,30 @@ namespace SLMBugTracker.Services
 
         public async Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
         {
-             try
+            try
             {
                 List<BTUser> members = await GetProjectMembersByRoleAsync(projectId, role);
                 Project project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
 
-              foreach (BTUser btUser in members)
-            {
-                try
+                foreach (BTUser btUser in members)
                 {
-                    project.Members.Remove(btUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
-                    throw;
+                    try
+                    {
+                        project.Members.Remove(btUser);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"**** ERROR **** Error Removing Users from project. ---> {ex.Message}");
+                throw;
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"**** ERROR **** Error Removing Users from project. ---> {ex.Message}");
-            throw;
-        }
-    }
 
         // CRUD - Update
         public async Task UpdateProjectAsync(Project project)
