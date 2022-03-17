@@ -11,9 +11,9 @@ namespace SLMBugTracker.Services
 {
     public class BTTicketService : IBTTicketService
     {
-        private readonly ApplicationDbContext _context;   
+        private readonly ApplicationDbContext _context;
 
-        public BTTicketService (ApplicationDbContext context)
+        public BTTicketService(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -40,12 +40,26 @@ namespace SLMBugTracker.Services
         {
             try
             {
-                List<Ticket> tickets = await _context.
-                
+                List<Ticket> tickets = await _context.Projects
+                                                     .Where(p => p.CompanyId == companyId)
+                                                     .SelectMany(p => p.Tickets)
+                                                        .Include(t => t.Attachments)
+                                                        .Include(t => t.Comments)
+                                                        .Include(t => t.DeveloperUser)
+                                                        .Include(t => t.History)
+                                                        .Include(t => t.OwnerUser)
+                                                        .Include(t => t.TicketPriority)
+                                                        .Include(t => t.TicketStatus)
+                                                        .Include(t => t.TicketType)
+                                                        .Include(t => t.Project)
+                                                     .ToListAsync();
+
+                return tickets;
+
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
@@ -119,14 +133,14 @@ namespace SLMBugTracker.Services
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
 
         public async Task<int?> LookupTicketStatusIdAsync(string statusName)
         {
-            
+
             try
             {
                 TicketStatus status = await _context.TicketStatuses.FirstOrDefaultAsync(p => p.Name == statusName);
@@ -137,7 +151,7 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-    
+
 
         public async Task<int?> LookupTicketTypeIdAsync(string typeName)
         {
