@@ -36,9 +36,18 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
+        public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Ticket> tickets = await _context.
+                
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
@@ -108,7 +117,7 @@ namespace SLMBugTracker.Services
                 TicketPriority priority = await _context.TicketPriorities.FirstOrDefaultAsync(p => p.Name == priorityName);
                 return priority?.Id;
             }
-            catch
+            catch (Exception)
             {
                 
                 throw;
@@ -123,7 +132,7 @@ namespace SLMBugTracker.Services
                 TicketStatus status = await _context.TicketStatuses.FirstOrDefaultAsync(p => p.Name == statusName);
                 return status?.Id;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
