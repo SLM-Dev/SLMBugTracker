@@ -115,9 +115,21 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public async  Task<int?> LookupTicketStatusIdAsync(string statusName)
+        public async Task<int?> LookupTicketStatusIdAsync(string statusName)
         {
-        
+                {
+            try
+            {
+                TicketStatus status = await _context.TicketStatuses.FirstOrDefaultAsync(p => p.Name == statusName);
+                return status?.Id;
+            }
+            catch
+            {
+                
+                throw;
+            }
+        }
+        }
 
         public Task<int?> LookupTicketTypeIdAsync(string typeName)
         {
