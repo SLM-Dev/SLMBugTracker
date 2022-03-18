@@ -38,10 +38,35 @@ namespace SLMBugTracker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task AssignTicketAsync(int ticketId, string userId)
+        public async Task AssignTicketAsync(int ticketId, string userId)
         {
-            throw new NotImplementedException();
+            Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+        try
+        {
+            if (ticket != null)
+            {
+                try
+                {
+                    ticket.DeveloperUserId = userId;
+                    // When assigning tickets, remember to return and check on this code.
+                    ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
         }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+        
 
         public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
         {
