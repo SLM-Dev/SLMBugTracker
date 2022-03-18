@@ -421,8 +421,16 @@ namespace SLMBugTracker.Services
 
         public async Task UpdateTicketAsync(Ticket ticket)
         {
-            _context.Update(ticket);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Update(ticket);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
