@@ -42,31 +42,31 @@ namespace SLMBugTracker.Services
         {
             Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
 
-        try
-        {
-            if (ticket != null)
+            try
             {
-                try
+                if (ticket != null)
                 {
-                    ticket.DeveloperUserId = userId;
-                    // When assigning tickets, remember to return and check on this code.
-                    ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception)
-                {
+                    try
+                    {
+                        ticket.DeveloperUserId = userId;
+                        // When assigning tickets, remember to return and check on this code.
+                        ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
 
-                    throw;
+                        throw;
+                    }
                 }
             }
-        }
-        catch (Exception)
-        {
+            catch (Exception)
+            {
 
-            throw;
+                throw;
+            }
         }
-    }
-        
+
 
         public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
         {
@@ -122,7 +122,7 @@ namespace SLMBugTracker.Services
             catch (Exception)
             {
 
-                throw;    
+                throw;
             }
         }
 
@@ -199,16 +199,27 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-    
+
 
         public Task<List<Ticket>> GetProjectTicketsByPriorityAsync(string priorityName, int companyId, int projectId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId)
+        public async Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            List<Ticket> tickets = new();
+
+            try
+            {
+                tickets = (await GetTicketsByRoleAsync(role, userId, companyId)).Where(t => t.ProjectId == projectId).ToList();
+                return tickets;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
@@ -228,95 +239,95 @@ namespace SLMBugTracker.Services
 
         public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
         {
-            
-        BTUser developer = new();
 
-        try
-        {
-            Ticket ticket = (await GetAllTicketsByCompanyAsync(companyId)).FirstOrDefault(t => t.Id == ticketId);
-            if (ticket?.DeveloperUserId != null)
+            BTUser developer = new();
+
+            try
             {
-                developer = ticket.DeveloperUser;
+                Ticket ticket = (await GetAllTicketsByCompanyAsync(companyId)).FirstOrDefault(t => t.Id == ticketId);
+                if (ticket?.DeveloperUserId != null)
+                {
+                    developer = ticket.DeveloperUser;
+                }
+
+                return developer;
             }
+            catch (Exception)
+            {
 
-            return developer;
+                throw;
+            }
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
-    }
-        
 
         public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
         {
-             List<Ticket> tickets = new();
+            List<Ticket> tickets = new();
 
-        try
-        {
-            if (role == Roles.Admin.ToString())
+            try
             {
-                tickets = await GetAllTicketsByCompanyAsync(companyId);
-            }
-            else if (role == Roles.Developer.ToString())
-            {
-                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.DeveloperUserId == userId).ToList();
-            }
-            else if (role == Roles.Submitter.ToString())
-            {
-                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.OwnerUserId == userId).ToList();
-            }
-            else if ((role == Roles.ProjectManager.ToString()))
-            {
-                tickets = await GetTicketsByUserIdAsync(userId, companyId);
-            }
+                if (role == Roles.Admin.ToString())
+                {
+                    tickets = await GetAllTicketsByCompanyAsync(companyId);
+                }
+                else if (role == Roles.Developer.ToString())
+                {
+                    tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.DeveloperUserId == userId).ToList();
+                }
+                else if (role == Roles.Submitter.ToString())
+                {
+                    tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.OwnerUserId == userId).ToList();
+                }
+                else if ((role == Roles.ProjectManager.ToString()))
+                {
+                    tickets = await GetTicketsByUserIdAsync(userId, companyId);
+                }
 
-            return tickets;
+                return tickets;
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-        catch (Exception)
-        {
-
-            throw;
-        }
-    }
 
         public async Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
-        BTUser btUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        List<Ticket> tickets = new();
+            BTUser btUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            List<Ticket> tickets = new();
 
-        try
-        {
-            if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Admin.ToString()))
+            try
             {
-                tickets = (await _projectService.GetAllProjectsByCompany(companyId)).SelectMany(p => p.Tickets).ToList();
-            }
-            else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Developer.ToString()))
-            {
-                tickets = (await _projectService.GetAllProjectsByCompany(companyId))
-                                                .SelectMany(p => p.Tickets).Where(t => t.DeveloperUserId == userId).ToList();
-            }
-            else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Submitter.ToString()))
-            {
-                tickets = (await _projectService.GetAllProjectsByCompany(companyId))
-                                                .SelectMany(p => p.Tickets).Where(t => t.OwnerUserId == userId).ToList();
-            }
-            else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.ProjectManager.ToString()))
-            {
-                tickets = (await _projectService.GetUserProjectsAsync(userId)).SelectMany(t => t.Tickets).ToList();
-            }
+                if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Admin.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompany(companyId)).SelectMany(p => p.Tickets).ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Developer.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompany(companyId))
+                                                    .SelectMany(p => p.Tickets).Where(t => t.DeveloperUserId == userId).ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Submitter.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompany(companyId))
+                                                    .SelectMany(p => p.Tickets).Where(t => t.OwnerUserId == userId).ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.ProjectManager.ToString()))
+                {
+                    tickets = (await _projectService.GetUserProjectsAsync(userId)).SelectMany(t => t.Tickets).ToList();
+                }
 
-            return tickets;
+                return tickets;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
-    }
-        
 
         public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
         {
