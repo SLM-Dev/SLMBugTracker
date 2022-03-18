@@ -27,8 +27,16 @@ namespace SLMBugTracker.Services
 
         public async Task AddNewTicketAsync(Ticket ticket)
         {
-            _context.Add(ticket);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task ArchiveTicketAsync(Ticket ticket)
@@ -291,7 +299,6 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-
 
         public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
         {
