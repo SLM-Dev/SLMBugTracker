@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.Enums;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -189,10 +190,38 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
+        public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
         {
-            throw new NotImplementedException();
+             List<Ticket> tickets = new();
+
+        try
+        {
+            if (role == Roles.Admin.ToString())
+            {
+                tickets = await GetAllTicketsByCompanyAsync(companyId);
+            }
+            else if (role == Roles.Developer.ToString())
+            {
+                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.DeveloperUserId == userId).ToList();
+            }
+            else if (role == Roles.Submitter.ToString())
+            {
+                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.OwnerUserId == userId).ToList();
+            }
+            else if ((role == Roles.ProjectManager.ToString()))
+            {
+                tickets = await GetTicketsByUserIdAsync(userId, companyId);
+            }
+
+            return tickets;
+
         }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
 
         public Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
