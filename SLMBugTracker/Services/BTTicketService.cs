@@ -205,16 +205,16 @@ namespace SLMBugTracker.Services
         {
             List<Ticket> tickets = new();
 
-        try
-        {
-            tickets = (await GetAllTicketsByPriorityAsync(companyId, priorityName)).Where(t => t.ProjectId == projectId).ToList();
-            return tickets;
-        }
-        catch (Exception)
-        {
+            try
+            {
+                tickets = (await GetAllTicketsByPriorityAsync(companyId, priorityName)).Where(t => t.ProjectId == projectId).ToList();
+                return tickets;
+            }
+            catch (Exception)
+            {
 
-            throw;
-        }
+                throw;
+            }
         }
 
         public async Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId)
@@ -253,16 +253,16 @@ namespace SLMBugTracker.Services
         {
             List<Ticket> tickets = new();
 
-        try
-        {
-            tickets = (await GetAllTicketsByTypeAsync(companyId, typeName)).Where(t => t.ProjectId == projectId).ToList();
-            return tickets;
-        }
-        catch (Exception)
-        {
+            try
+            {
+                tickets = (await GetAllTicketsByTypeAsync(companyId, typeName)).Where(t => t.ProjectId == projectId).ToList();
+                return tickets;
+            }
+            catch (Exception)
+            {
 
-            throw;
-        }
+                throw;
+            }
         }
 
         public async Task<Ticket> GetTicketByIdAsync(int ticketId)
