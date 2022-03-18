@@ -255,7 +255,7 @@ namespace SLMBugTracker.Services
 
                 throw;
             }
-        }
+        } 
 
         public async Task<List<Ticket>> GetProjectTicketsByTypeAsync(string typeName, int companyId, int projectId)
         {
