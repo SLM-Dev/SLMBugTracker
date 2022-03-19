@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using SLMBugTracker.Models;
@@ -33,13 +35,21 @@ namespace SLMBugTracker.Services
             
             email.Body = builder.ToMessageBody();
 
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            try
+            {
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
 
-            await smtp.SendAsync(email);
+                await smtp.SendAsync(email);
 
-            smtp.Disconnect(true);
+                smtp.Disconnect(true);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
     }
