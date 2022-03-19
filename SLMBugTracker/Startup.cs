@@ -53,6 +53,8 @@ namespace SLMBugTracker
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddScoped<IBTNotificationService, BTNotificationService>();
             services.AddScoped<IBTInviteService, BTInviteService>();
+            services.AddScoped<IBTFileService, BTFileService>();
+
             services.AddControllersWithViews();
         }
 
