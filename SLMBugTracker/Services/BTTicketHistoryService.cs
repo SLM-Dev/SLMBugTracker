@@ -155,8 +155,6 @@ namespace SLMBugTracker.Services;
         }
     }
 
-
-
     public async Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
     {
         try
@@ -196,6 +194,7 @@ namespace SLMBugTracker.Services;
             throw;
         }
     }
+}
 }
 
 
