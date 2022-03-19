@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SLMBugTracker.Data
 {
-    public class DataUtility
+    public static class DataUtility
     {
     }
 }
