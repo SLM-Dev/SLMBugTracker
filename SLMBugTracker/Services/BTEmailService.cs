@@ -10,7 +10,12 @@ namespace SLMBugTracker.Services
 {
     public class BTEmailService : IEmailSender
     {
+        private readonly MailSettings _mailSettings;
+
         public BTEmailService(IOptions<MailSettings> mailSettings)
+        {
+            _mailSettings = mailSettings.Value;
+        }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
