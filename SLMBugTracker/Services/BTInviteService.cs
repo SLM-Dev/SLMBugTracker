@@ -19,37 +19,21 @@ namespace SLMBugTracker.Services
         }
         public async Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
-            
-                Invite invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token); 
 
-                if (invite == null)
-                {
-                    return false;
-                }
+            Invite invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token);
 
-                try
-                {
-                    invite.IsValid = false; 
-                    invite.InviteeId = userId; 
-                    await _context.SaveChangesAsync(); 
-                 
-                    return true;
-                }
-
-                catch (Exception)
-                {
-                    throw;
-                }
+            if (invite == null)
+            {
+                return false;
             }
-        
-        
-        
-        public async Task AddNewInviteAsync(Invite invite)
-        {
+
             try
             {
-                await _context.Invites.AddAsync(invite); 
-                await _context.SaveChangesAsync(); 
+                invite.IsValid = false;
+                invite.InviteeId = userId;
+                await _context.SaveChangesAsync();
+
+                return true;
             }
 
             catch (Exception)
@@ -57,12 +41,28 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-    
+
+
+
+        public async Task AddNewInviteAsync(Invite invite)
+        {
+            try
+            {
+                await _context.Invites.AddAsync(invite);
+                await _context.SaveChangesAsync();
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<bool> AnyInviteAsync(Guid? token, string email, int companyId)
         {
             try
             {
-                bool result = await _context.Invites.Where(i => i.CompanyId == companyId) 
+                bool result = await _context.Invites.Where(i => i.CompanyId == companyId)
                                                     .AnyAsync(i => i.CompanyToken == token && i.InviteeEmail == email);
 
                 return result;
@@ -73,12 +73,27 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-        
 
-        public Task<Invite> GetInviteAsync(int inviteId, int companyId)
+
+        public async Task<Invite> GetInviteAsync(int inviteId, int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {           
+                                            Invite invite = await _context.Invites.Where(i => i.CompanyId == companyId)
+                                                .Include(i => i.Company)
+                                                .Include(i => i.Project)
+                                                .Include(i => i.Invitor)
+                                                .FirstOrDefaultAsync(u => u.Id == inviteId);
+
+                 return invite;
+                 
+                 }
+                 catch (Exception)
+                 {
+                     throw;
+            }
         }
+
 
         public Task<Invite> GetInviteAsync(Guid token, string email, int companyId)
         {
