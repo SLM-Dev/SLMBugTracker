@@ -23,11 +23,11 @@ namespace SLMBugTracker.Models
         //Creates a foreign key for the TicketStatus
 
         [DisplayName("Previous")]
-        public int OldValue { get; set; }
+        public string OldValue { get; set; }
 
         //Creates a foreign key for the Current
         [DisplayName("Current")]
-        public int NewValue { get; set; }
+        public string NewValue { get; set; }
 
         //Create a foreign key for the Date
         [DisplayName("Date Modified")]
