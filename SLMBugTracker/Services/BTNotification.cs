@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Data;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using SLMBugTracker.Data;
 using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
@@ -10,10 +11,17 @@ namespace SLMBugTracker.Services
 {
     public class BTNotification : IBTNotificationService
     {
+        private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
+        private readonly IBTRolesService _rolesService;
 
-        public BTNotification(ApplicationDbContext context)
+        public BTNotification(ApplicationDbContext context,
+                              IEmailSender emailSender,
+                              IBTRolesService rolesService)
         {
-
+            _context = context;
+            _emailSender = emailSender;
+            _rolesService = rolesService;
         }
         public Task AddNotificationAsync(Notification notification)
         {
