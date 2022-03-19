@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Options;
+using SLMBugTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
