@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace SLMBugTracker.Models.Enums
 {
-    public class BTTicketPriority
+    public enum BTTicketPriority
     {
+        Low,
+        Medium,
+        High,
+        Urgent
     }
 }
