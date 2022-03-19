@@ -49,7 +49,16 @@ namespace SLMBugTracker.Services
 
         public string FormatFileSize(long bytes)
         {
-            throw new NotImplementedException();
+            int counter = 0;
+            decimal fileSize = bytes;
+            while (Math.Round(fileSize / 1024) >= 1)
+            {
+                fileSize /= bytes;
+                counter++; 
+            }
+
+            return String.Format("{0:n1}{1}", fileSize, suffixes[counter]); 
+        
         }
 
         public string GetFileIcon(string file)
