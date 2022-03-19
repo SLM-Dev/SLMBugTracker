@@ -9,10 +9,23 @@ namespace SLMBugTracker.Services
 {
     public class BTFileService : IBTFileService
     {
+        private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
+
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string imageBase64Data = Convert.ToBase64String(fileData);
+                return string.Format($"data:image/{extension};base64,{imageBase64Data}");
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
 
         public Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
         {
