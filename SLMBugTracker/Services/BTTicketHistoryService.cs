@@ -16,20 +16,44 @@ namespace SLMBugTracker.Services
         {
             _context = context;
         }
-        
-        public Task AddHistoryAsync(Ticket oldTicket, Ticket newTicket, string userId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
+        public async Task AddHistoryAsync(Ticket oldTicket, Ticket newTicket, string userId)
         {
-            throw new NotImplementedException();
-        }
+            // NEW TICKET HAS BEEN ADDED
+            if (oldTicket == null && newTicket != null)
+            {
 
-        public Task<List<TicketHistory>> GetProjectTicketsHistoriesAsync(int projectId, int companyId)
-        {
-            throw new NotImplementedException();
+                TicketHistory history = new()
+                { 
+                    TicketId = newTicket.Id,
+                    Property = "",
+                    OldValue = "",
+                    NewValue = "",
+                    Created = DateTimeOffset.Now,
+                    UserId = userId,
+                    Description = "New Ticket Created"
+                };
+
+            try
+            {
+                await _context.TicketHistories.AddAsync(history);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
+    public Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<TicketHistory>> GetProjectTicketsHistoriesAsync(int projectId, int companyId)
+    {
+        throw new NotImplementedException();
+    }
 }
+
