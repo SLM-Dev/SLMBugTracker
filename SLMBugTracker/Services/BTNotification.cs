@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Models;
+﻿using SLMBugTracker.Data;
+using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,11 @@ namespace SLMBugTracker.Services
 {
     public class BTNotification : IBTNotificationService
     {
+
+        public BTNotification(ApplicationDbContext context)
+        {
+
+        }
         public Task AddNotificationAsync(Notification notification)
         {
             throw new NotImplementedException();
