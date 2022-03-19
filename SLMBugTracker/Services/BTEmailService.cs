@@ -8,6 +8,8 @@ namespace SLMBugTracker.Services
 {
     public class BTEmailService : IEmailSender
     {
+        public BTEmailService(IOptions<MailSettings> mailSettings)
+
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             throw new NotImplementedException();
