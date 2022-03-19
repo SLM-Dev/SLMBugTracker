@@ -61,9 +61,25 @@ namespace SLMBugTracker.Services
         }
             
 
-        public Task<List<Notification>> GetSentNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetSentNotificationsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Notification> notifications = await _context.Notifications
+                                                                     .Include(u => u.Recipient)
+                                                                     .Include(u => u.Sender)
+                                                                     .Include(u => u.Ticket)
+                                                                          .ThenInclude(t => t.Project)
+                                                                     .Where(n => n.SenderId == userId).ToListAsync();
+                return notifications;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Task SendEmailNotificationAsync(Notification notification, string emailSubject)
