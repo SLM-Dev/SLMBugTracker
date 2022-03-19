@@ -11,5 +11,8 @@ namespace SLMBugTracker.Services.Interfaces
         public Task AddNotificationAsync(Notification notification);
 
         public Task<List<Notification>> GetRecievedNotificationsAsync(string userId);
+        public Task<List<Notification>> GetSentNotificationsAsync(string userId);
+
+
     }
 }
