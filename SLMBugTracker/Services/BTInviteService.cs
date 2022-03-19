@@ -114,9 +114,34 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task<bool> ValidateInviteCodeAsync(Guid? token)
+        public async Task<bool> ValidateInviteCodeAsync(Guid? token)
         {
-            throw new NotImplementedException();
+            {
+            if (token == null)
+            {
+                return false;
+            }
+
+            bool result = false;
+
+            Invite invite = await _context.Invites.FirstOrDefaultAsync(u => u.CompanyToken == token); 
+            if (invite != null)
+            {
+                // Determine invite date
+                DateTime inviteDate = invite.InviteDate.DateTime; 
+                
+                // Custom validation of invite based on the date it was issued
+                // In this case we are allowing an invite to be vaild for 7 days
+                bool validDate = (DateTime.Now - inviteDate).TotalDays <= 7; 
+
+                if (validDate)
+                {
+                    result = invite.IsValid; 
+                }
+            }
+
+            return result;
+        } 
         }
     }
 }
