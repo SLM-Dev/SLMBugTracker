@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
+using MimeKit;
 using SLMBugTracker.Models;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace SLMBugTracker.Services
             _mailSettings = mailSettings.Value;
         }
 
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string emailTo, string subject, string htmlMessage)
         {
-            throw new NotImplementedException();
+            MimeMessage email = new();
         }
     }
 }
