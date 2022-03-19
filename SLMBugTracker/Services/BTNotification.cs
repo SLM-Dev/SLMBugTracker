@@ -82,9 +82,9 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task SendEmailNotificationAsync(Notification notification, string emailSubject)
+        public async Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject)
         {
-            throw new NotImplementedException();
+        
         }
 
         public Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role)
