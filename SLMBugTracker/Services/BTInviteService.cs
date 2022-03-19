@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SLMBugTracker.Data;
 using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
@@ -16,12 +17,31 @@ namespace SLMBugTracker.Services
         {
             _context = context;
         }
-        public Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
+        public async Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
-            throw new NotImplementedException();
-        }
+            
+                Invite invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token); 
 
-        public Task AddNewInviteAsync(Invite invite)
+                if (invite == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    invite.IsValid = false; 
+                    invite.InviteeId = userId; 
+                    await _context.SaveChangesAsync(); 
+                 
+                    return true;
+                }
+
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            public Task AddNewInviteAsync(Invite invite)
         {
             throw new NotImplementedException();
         }
