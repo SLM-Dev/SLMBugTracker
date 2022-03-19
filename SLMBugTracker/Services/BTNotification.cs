@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
@@ -37,10 +38,28 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task<List<Notification>> GetRecievedNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetRecievedNotificationsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Notification> notifications = await _context.Notifications
+                                                                     .Include(u => u.Recipient)
+                                                                     .Include(u => u.Sender)
+                                                                     .Include(u => u.Ticket)
+                                                                          .ThenInclude(t => t.Project)
+                                                                     .Where(n => n.RecipientId == userId).ToListAsync();
+                return notifications;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
+            
 
         public Task<List<Notification>> GetSentNotificationsAsync(string userId)
         {
