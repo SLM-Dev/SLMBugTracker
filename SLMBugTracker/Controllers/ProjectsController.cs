@@ -66,9 +66,9 @@ namespace SLMBugTracker.Controllers
 
             // Load SelectList with data ie. PMList & PriorityList
             model.PMList = new SelectList( await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
+            model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "Name");
             
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
-            return View();
+            return View(model);
         }
 
         // POST: Projects/Create
