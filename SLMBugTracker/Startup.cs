@@ -50,7 +50,7 @@ namespace SLMBugTracker
             services.AddScoped<IBTProjectService, BTProjectService>();
             services.AddScoped<IBTTicketService, BTTicketService>();
             services.AddScoped<IBTTicketHistoryService, BTTicketHistoryService>();
-
+            services.AddScoped<IBTLookupService, BTLookupService>();
             services.AddScoped<IEmailSender, BTEmailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddScoped<IBTNotificationService, BTNotificationService>();
