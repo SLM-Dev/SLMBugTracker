@@ -9,16 +9,20 @@ using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 using SLMBugTracker.Models.ViewModels;
+using SLMBugTracker.Services.Interfaces;
 
 namespace SLMBugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBTRolesService _rolesService;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context,
+           IBTRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
         // GET: Projects
@@ -53,7 +57,11 @@ namespace SLMBugTracker.Controllers
         {
             int companyId = User.Identity.GetCompanyId().Value;
 
+            // Add ViewModel instance "AddProjectWithPMViewModel"
             AddProjectWithPMViewModel model = new ();
+
+            // Load SelectList with data ie. PMList & PriorityList
+            
 
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
             return View();
