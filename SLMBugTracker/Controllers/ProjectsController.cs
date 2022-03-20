@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
+using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 
 namespace SLMBugTracker.Controllers
@@ -49,7 +50,8 @@ namespace SLMBugTracker.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            
+            int companyId = User.Identity.GetCompanyId().Value;
+
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
             return View();
         }
