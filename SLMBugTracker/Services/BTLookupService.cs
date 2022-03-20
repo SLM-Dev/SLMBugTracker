@@ -1,4 +1,5 @@
-﻿using SLMBugTracker.Models;
+﻿using SLMBugTracker.Data;
+using SLMBugTracker.Models;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,11 @@ namespace SLMBugTracker.Services
 {
     public class BTLookupService : IBTLookupService
     {
-        public Task<List<ProjectPriority>> GetProjectPrioritiesAsync()
+
+        public BTLookupService(ApplicationDbContext context)
+        public async Task<List<ProjectPriority>> GetProjectPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task<List<TicketPriority>> GetTicketPrioritiesAsync()
