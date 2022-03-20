@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.Enums;
 using SLMBugTracker.Models.ViewModels;
 using SLMBugTracker.Services.Interfaces;
 
@@ -17,12 +18,15 @@ namespace SLMBugTracker.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _rolesService;
+        private readonly IBTLookupService _lookupService;
 
         public ProjectsController(ApplicationDbContext context,
-           IBTRolesService rolesService)
+           IBTRolesService rolesService,
+           IBTLookupService lookupService)
         {
             _context = context;
             _rolesService = rolesService;
+            _lookupService = lookupService;
         }
 
         // GET: Projects
@@ -53,7 +57,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Projects/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             int companyId = User.Identity.GetCompanyId().Value;
 
@@ -61,8 +65,8 @@ namespace SLMBugTracker.Controllers
             AddProjectWithPMViewModel model = new ();
 
             // Load SelectList with data ie. PMList & PriorityList
+            model.PMList = new SelectList( await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
             
-
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
             return View();
         }
