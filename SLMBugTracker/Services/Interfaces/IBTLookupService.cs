@@ -1,11 +1,20 @@
-﻿using System;
+﻿using SLMBugTracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SLMBugTracker.Services.Interfaces
 {
-    public class IBTLookupService
+    public interface IBTLookupService
     {
+        public interface IBTLookupService
+        {
+            public Task<List<TicketPriority>> GetTicketPrioritiesAsync();
+            public Task<List<TicketStatus>> GetTicketStatusesAsync();
+            public Task<List<TicketType>> GetTicketTypesAsync();
+            public Task<List<ProjectPriority>> GetProjectPrioritiesAsync();
+
+        }
     }
 }
