@@ -8,17 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SLMBugTracker.Controllers
 {
-    
+
     public class UserRolesController : Controller
     {
         private readonly IBTRolesService _rolesService;
         private readonly IBTCompanyInfoService _companyInfoService;
 
 
-        public UserRolesController(IBTRolesService rolesService, 
+        public UserRolesController(IBTRolesService rolesService,
                                    IBTCompanyInfoService companyInfoService)
         {
             _rolesService = rolesService;
@@ -40,14 +41,14 @@ namespace SLMBugTracker.Controllers
             // - instantiate ViewModel
             // - use _rolesService
             // - Create multi-selects
-            
+
             foreach (BTUser user in users)
             {
                 ManageUserRolesViewModel viewModel = new();
                 viewModel.BTUser = user;
                 IEnumerable<string> selected = await _rolesService.GetUserRolesAsync(user);
                 viewModel.Roles = new MultiSelectList(await _rolesService.GetRolesAsync(), "Name", "Name", selected);
-                
+
                 model.Add(viewModel);
             }
 
@@ -57,27 +58,34 @@ namespace SLMBugTracker.Controllers
         }
 
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel member)
         {
+            // Get the company Id
             int companyId = User.Identity.GetCompanyId().Value;
+
             BTUser btUser = (await _companyInfoService.GetAllMembersAsync(companyId)).FirstOrDefault(u => u.Id == member.BTUser.Id);
+
+            // Get Roles for the User
             IEnumerable<string> roles = await _rolesService.GetUserRolesAsync(btUser);
+
+
+            // Grab the selected role
             string userRole = member.SelectedRoles.FirstOrDefault();
 
             if (!string.IsNullOrEmpty(userRole))
             {
-                if (await _rolesService.RemoveUserFromRoleAsync(btUser, userRole))
+                // Remove User from their roles
+                if (await _rolesService.RemoveUserFromRolesAsync(btUser, roles))
                 {
+                    // Add User to the new role
                     await _rolesService.AddUserToRoleAsync(btUser, userRole);
                 }
             }
-
+            // Navigate back to the View
             return RedirectToAction(nameof(ManageUserRoles));
         }
-
+        
     }
 }

@@ -32,25 +32,23 @@ namespace SLMBugTracker.Services
             bool result = (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
             return result;
         }
-
         public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
+
             IdentityRole role = _context.Roles.Find(roleId);
             string result = await _roleManager.GetRoleNameAsync(role);
             return result;
         }
-
         public async Task<List<IdentityRole>> GetRolesAsync()
         {
             try
             {
-                List<IdentityRole> result = new(); 
-                
-                result = await _context.Roles.ToListAsync(); 
-                
+                List<IdentityRole> result = new();
+
+                result = await _context.Roles.ToListAsync();
+
                 return result;
             }
-
             catch (Exception)
             {
                 throw;
@@ -74,7 +72,7 @@ namespace SLMBugTracker.Services
         {
             List<string> userIds = (await _userManager.GetUsersInRoleAsync(roleName)).Select(u => u.Id).ToList();
             List<BTUser> roleUsers = _context.Users.Where(u => !userIds.Contains(u.Id)).ToList();
-            
+
             List<BTUser> result = roleUsers.Where(u => u.CompanyId == companyId).ToList();
             return result;
         }
@@ -85,6 +83,7 @@ namespace SLMBugTracker.Services
             return result;
         }
 
+        // Removing Users
         public async Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
         {
             bool result = (await _userManager.RemoveFromRoleAsync(user, roleName)).Succeeded;
