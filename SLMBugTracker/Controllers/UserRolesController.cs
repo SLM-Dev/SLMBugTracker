@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SLMBugTracker.Controllers
 {
-
+    [Authorize]
     public class UserRolesController : Controller
     {
         private readonly IBTRolesService _rolesService;
