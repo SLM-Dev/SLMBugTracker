@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using SLMBugTracker.Data;
 using SLMBugTracker.Models;
 using SLMBugTracker.Services;
+using SLMBugTracker.Services.Factories;
 using SLMBugTracker.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace SLMBugTracker
 
             services.AddIdentity<BTUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddClaimsPrincipalFactory<BTUserClaimsPrincipalFactory>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
