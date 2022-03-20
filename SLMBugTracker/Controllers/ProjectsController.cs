@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.ViewModels;
 
 namespace SLMBugTracker.Controllers
 {
@@ -51,6 +52,8 @@ namespace SLMBugTracker.Controllers
         public IActionResult Create()
         {
             int companyId = User.Identity.GetCompanyId().Value;
+
+            AddProjectWithPMViewModel model = new ();
 
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
             return View();
