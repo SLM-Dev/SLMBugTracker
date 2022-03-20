@@ -63,7 +63,7 @@ namespace SLMBugTracker.Data
             //Migration: This is the programmatic equivalent to Update-Database
             await dbContextSvc.Database.MigrateAsync();
 
-
+             
             //Custom  Bug Tracker Seed Methods
             await SeedRolesAsync(roleManagerSvc);
             await SeedDefaultCompaniesAsync(dbContextSvc);
