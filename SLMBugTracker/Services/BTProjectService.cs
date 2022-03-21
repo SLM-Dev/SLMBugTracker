@@ -108,6 +108,14 @@ namespace SLMBugTracker.Services
             {
                 project.Archived = true;
                 await UpdateProjectAsync(project);
+
+                //Archive the Tickets for the Project
+                foreach(Ticket ticket in project.Tickets)
+                {
+                    ticket.ArchivedByProject = true;
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {
