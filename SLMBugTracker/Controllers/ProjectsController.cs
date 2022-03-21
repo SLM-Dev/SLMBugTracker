@@ -117,7 +117,7 @@ namespace SLMBugTracker.Controllers
                 //TODO: Redirect To All Projects
             }
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Edit");
 
         }
         // GET: Projects/Edit/5
@@ -147,7 +147,6 @@ namespace SLMBugTracker.Controllers
         {
             if (model != null)
             {
-                int companyId = User.Identity.GetCompanyId().Value;
 
                 try
                 {
