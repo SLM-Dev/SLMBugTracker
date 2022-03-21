@@ -26,7 +26,7 @@ namespace SLMBugTracker.Controllers
         public ProjectsController(ApplicationDbContext context,
                                   IBTRolesService rolesService,
                                   IBTLookupService lookupService,
-                                  IBTFileService fileService, 
+                                  IBTFileService fileService,
                                   IBTProjectService projectService)
         {
             _context = context;
@@ -74,7 +74,7 @@ namespace SLMBugTracker.Controllers
             // Load SelectList with data ie. PMList & PriorityList
             model.PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
             model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "Name");
-             
+
             return View(model);
         }
 
@@ -83,7 +83,7 @@ namespace SLMBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (AddProjectWithPMViewModel model)
+        public async Task<IActionResult> Create(AddProjectWithPMViewModel model)
         {
             if (model != null)
             {
@@ -116,9 +116,9 @@ namespace SLMBugTracker.Controllers
 
                 //TODO: Redirect To All Projects
             }
-                
-                return RedirectToAction("Create");
-            
+
+            return RedirectToAction("Create");
+
         }
         // GET: Projects/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -134,7 +134,7 @@ namespace SLMBugTracker.Controllers
             // Load SelectList with data ie. PMList & PriorityList
             model.PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
             model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "Name");
-             
+
             return View(model);
         }
 
@@ -143,72 +143,74 @@ namespace SLMBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyId,Name,Description,StartDate,EndDate,ProjectPriorityId,ImageUrl,ImageFileData,ImageContentType,Archived")] Project project)
+        public async Task<IActionResult> Edit(AddProjectWithPMViewModel model)
         {
-            if (id != project.Id)
+            if (model != null)
             {
-                return NotFound();
-            }
+                int companyId = User.Identity.GetCompanyId().Value;
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
+                    if (model.Project.ImageFormFile != null)
+                    {
+                        model.Project.ImageFileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.ImageFormFile);
+                        model.Project.ImageFileName = model.Project.ImageFormFile.FileName;
+                        model.Project.ImageContentType = model.Project.ImageFormFile.ContentType;
+                    }
+
+                    //model.Project.CompanyId = companyId;
+
+                    await _projectService.AddNewProjectAsync(model.Project);
+
+                    //Adds PM if one is chosen
+                    if (!string.IsNullOrEmpty(model.PmId))
+                    {
+                        await _projectService.AddProjectManagerAsync(model.PmId, model.Project.Id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!ProjectExists(project.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
+
+            }
+            return RedirectToAction("Edit");
+
+            // GET: Projects/Delete/5
+            public async Task<IActionResult> Delete(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project = await _context.Projects
+                    .Include(p => p.Company)
+                    .Include(p => p.ProjectPriority)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return View(project);
+            }
+
+            // POST: Projects/Delete/5
+            [HttpPost, ActionName("Delete")]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> DeleteConfirmed(int id)
+            {
+                var project = await _context.Projects.FindAsync(id);
+                _context.Projects.Remove(project);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
-            return View(project);
-        }
 
-        // GET: Projects/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            private bool ProjectExists(int id)
             {
-                return NotFound();
+                return _context.Projects.Any(e => e.Id == id);
             }
-
-            var project = await _context.Projects
-                .Include(p => p.Company)
-                .Include(p => p.ProjectPriority)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            return View(project);
-        }
-
-        // POST: Projects/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var project = await _context.Projects.FindAsync(id);
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
         }
     }
-}
