@@ -378,9 +378,26 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task RestoreProjectAsync(Project project)
+        public async Task RestoreProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+                  try
+            {
+                project.Archived = false;
+                await UpdateProjectAsync(project);
+
+                //Restore/Archive the Tickets for the Project
+                foreach(Ticket ticket in project.Tickets)
+                {
+                    ticket.ArchivedByProject = false;
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // CRUD - Update
