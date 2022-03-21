@@ -50,5 +50,7 @@ namespace SLMBugTracker.Services.Interfaces
 
         public Task UpdateProjectAsync(Project project);
 
+        public Task RestoreProjectAsync(Project project);
+
     }
 }
