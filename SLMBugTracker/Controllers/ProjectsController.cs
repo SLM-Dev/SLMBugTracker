@@ -177,7 +177,7 @@ namespace SLMBugTracker.Controllers
             return RedirectToAction("Edit");
 
             // GET: Projects/Delete/5
-            public async Task<IActionResult> Delete(int? id)
+            public async Task<IActionResult> Archive(int? id)
             {
                 if (id == null)
                 {
@@ -197,9 +197,9 @@ namespace SLMBugTracker.Controllers
             }
 
             // POST: Projects/Delete/5
-            [HttpPost, ActionName("Delete")]
+            [HttpPost, ActionName("Archive")]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> DeleteConfirmed(int id)
+            public async Task<IActionResult> ArchiveConfirmed(int id)
             {
                 var project = await _context.Projects.FindAsync(id);
                 _context.Projects.Remove(project);
