@@ -1,5 +1,5 @@
 ﻿@model SLMBugTracker.Models.ViewModels.AddProjectWithPMViewModel
-
+@using SLMBugTracker.Models.Enums
 @{
     ViewData["Title"] = "Edit";
 }
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit"method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Project.Id" />
             <div class="form-group">
@@ -35,15 +35,36 @@
             </div>
             <div class="form-group">
                 <label asp-for="Project.ProjectPriorityId" class="control-label"></label>
-                <select asp-for="Project.ProjectPriorityId" class="form-control" asp-items="ViewBag.ProjectPriorityId"></select>
+                <select asp-for="Project.ProjectPriorityId" class="form-control" asp-items="@Model.PriorityList"></select>
                 <span asp-validation-for="Project.ProjectPriorityId" class="text-danger"></span>
             </div>
         
             <div class="form-group">
-                <label asp-for="Project.ImageFormFile" class="control-label"></label>
-                <input asp-for="Project.ImageFormFile" class="form-control" />
+                <label class="control-label"> Project Image </label>
+                <input asp-for="Project.ImageFormFile" class="form-control" type="file" accept=".png, .jpg, .jpeg, .gif"
+                onchange = "document.getElementById('imageFileData').src = window.URL.createObjectURL(this.files[0])" />
                 <span asp-validation-for="Project.ImageFormFile" class="text-danger"></span>
             </div>
+            <label> Image Preview </label>
+            @if (Model.Project?.ImageFileData != null)
+            {
+                <img id="imageFileData" class="img-fluid img-thumbnail" style="width:100px;height:80px" src="data:image/png;base64,@(Convert.ToBase64String(Model.Project.ImageFileData))" />
+            }
+            else
+            {
+                <img id="imageFileData" class="img-fluid img-thumbnail" style="width:100px;height:80px" src="" />
+            }
+            @if(User.IsInRole(Roles.Admin.ToString()))
+            {
+            <div class="form-group">
+                    <label class="control-label"> Project Manager</label>
+                    <select asp-for="PmId" class="form-control" asp-items="@Model.PMList">
+                        <option></option>
+                    </select>
+                </div>
+                
+            }
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

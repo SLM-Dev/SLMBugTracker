@@ -1,5 +1,5 @@
 ﻿@model SLMBugTracker.Models.ViewModels.AddProjectWithPMViewModel
-
+@using SLMBugTracker.Models.Enums
 @{
     ViewData["Title"] = "Create";
 }
@@ -52,12 +52,16 @@
                 <img id="imageFileData" class="img-fluid img-thumbnail" style="width:100px;height:80px" src="" />
             }
 
-                <div class="form-group">
+               @if(User.IsInRole(Roles.Admin.ToString()))
+            {
+            <div class="form-group">
                     <label class="control-label"> Project Manager</label>
                     <select asp-for="PmId" class="form-control" asp-items="@Model.PMList">
                         <option></option>
                     </select>
                 </div>
+                
+            }
 
 
             <div class="form-group">
