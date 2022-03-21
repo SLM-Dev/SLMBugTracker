@@ -30,13 +30,14 @@ namespace SLMBugTracker.Models
 
 
         //Start Date
-        [DataType(DataType.Date)]
         [DisplayName("Start Date")]
+        [DataType(DataType.Date)]
+
         public DateTimeOffset StartDate { get; set; }
 
         //End Date
-        [DataType(DataType.Date)]
         [DisplayName("End Date")]
+        [DataType(DataType.Date)]
         public DateTimeOffset EndDate { get; set; }
 
         //Priority
@@ -57,10 +58,10 @@ namespace SLMBugTracker.Models
         
         [DisplayName("File Extension")]
         public string ImageContentType { get; set; }
+        //public string ImageUrl { get; set; }
 
         [DisplayName("Archived")]
         public bool Archived { get; set; }
-
 
 
         //Navigation Properties

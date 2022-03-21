@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace SLMBugTracker.Services
 {
     public class BTLookupService : IBTLookupService
@@ -35,12 +34,10 @@ namespace SLMBugTracker.Services
         {
             throw new NotImplementedException();
         }
-
         public Task<List<TicketStatus>> GetTicketStatusesAsync()
         {
             throw new NotImplementedException();
         }
-
         public Task<List<TicketType>> GetTicketTypesAsync()
         {
             throw new NotImplementedException();

@@ -72,7 +72,7 @@ namespace SLMBugTracker.Controllers
             AddProjectWithPMViewModel model = new();
 
             // Load SelectList with data ie. PMList & PriorityList
-            model.PMList = new SelectList( await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
+            model.PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
             model.PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "Name");
              
             return View(model);
@@ -105,13 +105,16 @@ namespace SLMBugTracker.Controllers
                     //Adds PM if one is chosen
                     if (!string.IsNullOrEmpty(model.PmId))
                     {
-                        await _projectService.AddUserToProjectAsync(model.PmId, model.Project.Id);
+                        await _projectService.AddProjectManagerAsync(model.PmId, model.Project.Id);
                     }
+                    return RedirectToAction("Index");
                 }
                 catch (Exception)
                 {
                     throw;
                 }
+
+                //TODO: Redirect To All Projects
             }
                 
                 return RedirectToAction("Create");

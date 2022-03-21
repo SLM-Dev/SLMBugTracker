@@ -12,7 +12,7 @@ namespace SLMBugTracker.Models.ViewModels
         public SelectList PMList { get; set; }
         public string PmId { get; set; }
         public SelectList PriorityList { get; set; }
-        public int ProjectPriority { get; set; }
+       
         
     }
 }
