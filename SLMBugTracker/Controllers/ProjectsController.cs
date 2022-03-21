@@ -158,9 +158,9 @@ namespace SLMBugTracker.Controllers
                         model.Project.ImageContentType = model.Project.ImageFormFile.ContentType;
                     }
 
-                    //model.Project.CompanyId = companyId;
 
-                    await _projectService.AddNewProjectAsync(model.Project);
+
+                    await _projectService.UpdateProjectAsync(model.Project);
 
                     //Adds PM if one is chosen
                     if (!string.IsNullOrEmpty(model.PmId))
