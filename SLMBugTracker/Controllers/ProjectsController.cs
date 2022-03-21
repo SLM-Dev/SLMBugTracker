@@ -76,19 +76,15 @@ namespace SLMBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,ProjectPriority,ImageFormFile")] AddProjectWithPMViewModel model)
+        public async Task<IActionResult> Create (AddProjectWithPMViewModel model)
         {
-            if (ModelState.IsValid)
+           if(model != null)
             {
-                _context.Add(project);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
-            return View(project);
+                return RedirectToAction("Create");
+            
         }
-
         // GET: Projects/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
