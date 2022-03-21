@@ -175,7 +175,7 @@ namespace SLMBugTracker.Controllers
 
             }
             return RedirectToAction("Edit");
-
+        }
             // GET: Projects/Delete/5
             public async Task<IActionResult> Archive(int? id)
             {
@@ -185,7 +185,7 @@ namespace SLMBugTracker.Controllers
                 }
 
                 int companyId = User.Identity.GetCompanyId().Value;
-                var project = await _projectService.GetProjectByIdAsync(id.Value);
+                var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
                 if (project == null)
                 {
                     return NotFound();
@@ -208,7 +208,7 @@ namespace SLMBugTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            private bool ProjectExists(int id)
+            private  bool ProjectExists(int id)
             {
                 return _context.Projects.Any(e => e.Id == id);
             }
