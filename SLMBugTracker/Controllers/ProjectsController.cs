@@ -176,41 +176,44 @@ namespace SLMBugTracker.Controllers
             }
             return RedirectToAction("Edit");
         }
-            // GET: Projects/Delete/5
-            public async Task<IActionResult> Archive(int? id)
+        // GET: Projects/Archive/5
+        public async Task<IActionResult> Archive(int? id)
+        {
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                int companyId = User.Identity.GetCompanyId().Value;
-                var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
-                if (project == null)
-                {
-                    return NotFound();
-                }
-
-                return View(project);
+                return NotFound();
             }
 
-            // POST: Projects/Delete/5
-            [HttpPost, ActionName("Archive")]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> ArchiveConfirmed(int id)
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+
+            if (project == null)
             {
-                
-                int companyId = User.Identity.GetCompanyId().Value;
-                var project = await _projectService.GetProjectByIdAsync(id, companyId);   
-
-                await _projectService.ArchiveProjectAsync(project);
-
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
 
-            private  bool ProjectExists(int id)
-            {
-                return _context.Projects.Any(e => e.Id == id);
-            }
+            return View(project);
+        }
+
+        // POST: Projects/Archive/5
+        [HttpPost, ActionName("Archive")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ArchiveConfirmed(int id)
+        {
+
+            int companyId = User.Identity.GetCompanyId().Value;
+            
+            var project = await _projectService.GetProjectByIdAsync(id, companyId);
+            await _projectService.ArchiveProjectAsync(project);
+
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool ProjectExists(int id)
+        {
+            return _context.Projects.Any(e => e.Id == id);
         }
     }
+}
