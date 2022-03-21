@@ -107,8 +107,7 @@ namespace SLMBugTracker.Services
             try
             {
                 project.Archived = true;
-                _context.Update(project);
-                await _context.SaveChangesAsync();
+                await UpdateProjectAsync(project);
             }
             catch (Exception)
             {
