@@ -19,14 +19,21 @@ namespace SLMBugTracker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _rolesService;
         private readonly IBTLookupService _lookupService;
+        private readonly IBTFileService _fileService;
+        private readonly IBTProjectService _projectService;
+
 
         public ProjectsController(ApplicationDbContext context,
-           IBTRolesService rolesService,
-           IBTLookupService lookupService)
+                                  IBTRolesService rolesService,
+                                  IBTLookupService lookupService,
+                                  IBTFileService fileService, 
+                                  IBTProjectService projectService)
         {
             _context = context;
             _rolesService = rolesService;
             _lookupService = lookupService;
+            _fileService = fileService;
+            _projectService = projectService;
         }
 
         // GET: Projects
@@ -62,7 +69,7 @@ namespace SLMBugTracker.Controllers
             int companyId = User.Identity.GetCompanyId().Value;
 
             // Add ViewModel instance "AddProjectWithPMViewModel"
-            AddProjectWithPMViewModel model = new ();
+            AddProjectWithPMViewModel model = new();
 
             // Load SelectList with data ie. PMList & PriorityList
             model.PMList = new SelectList( await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName");
@@ -78,10 +85,29 @@ namespace SLMBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create (AddProjectWithPMViewModel model)
         {
-           if(model != null)
+            if (model != null)
             {
-            
+                int companyId = User.Identity.GetCompanyId().Value;
+
+                try
+                {
+                    if (model.Project.ImageFormFile != null)
+                    {
+                        model.Project.ImageFileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.ImageFormFile);
+                        model.Project.ImageFileName = model.Project.ImageFormFile.FileName;
+                        model.Project.ImageContentType = model.Project.ImageFormFile.ContentType;
+                    }
+
+                    model.Project.CompanyId = companyId;
+
+                    await _projectService.AddNewProjectAsync(model.Project);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
+                
                 return RedirectToAction("Create");
             
         }
