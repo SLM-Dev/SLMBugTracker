@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,19 +22,22 @@ namespace SLMBugTracker.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
-
+        private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
                                   IBTRolesService rolesService,
                                   IBTLookupService lookupService,
                                   IBTFileService fileService,
-                                  IBTProjectService projectService)
+                                  IBTProjectService projectService,
+                                  UserManager<BTUser> userManager)
+
         {
             _context = context;
             _rolesService = rolesService;
             _lookupService = lookupService;
             _fileService = fileService;
             _projectService = projectService;
+            _userManager = userManager;
         }
 
         // GET: Projects
