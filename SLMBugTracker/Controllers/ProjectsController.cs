@@ -101,6 +101,12 @@ namespace SLMBugTracker.Controllers
                     model.Project.CompanyId = companyId;
 
                     await _projectService.AddNewProjectAsync(model.Project);
+
+                    //Adds PM if one is chosen
+                    if (!string.IsNullOrEmpty(model.PmId))
+                    {
+                        await _projectService.AddUserToProjectAsync(model.PmId, model.Project.Id);
+                    }
                 }
                 catch (Exception)
                 {
