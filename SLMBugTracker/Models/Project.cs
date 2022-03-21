@@ -49,10 +49,10 @@ namespace SLMBugTracker.Models
         [NotMapped]
         [DataType(DataType.Upload)]
         public IFormFile ImageFormFile { get; set; }
+        
         [DisplayName("File Name")]
+        public string ImageFileName { get; set; }
  
-        public string ImageUrl { get; set; }
-
         public byte[] ImageFileData { get; set; }
         
         [DisplayName("File Extension")]
