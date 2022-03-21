@@ -371,6 +371,11 @@ namespace SLMBugTracker.Services
             }
         }
 
+        public Task RestoreProjectAsync(Project project)
+        {
+            throw new NotImplementedException();
+        }
+
         // CRUD - Update
         public async Task UpdateProjectAsync(Project project)
         {
