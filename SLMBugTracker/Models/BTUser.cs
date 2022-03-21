@@ -54,7 +54,7 @@ namespace SLMBugTracker.Models
         public string AvatarContentType { get; set; }
 
 
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
 
         //Navigation properties for the Company
