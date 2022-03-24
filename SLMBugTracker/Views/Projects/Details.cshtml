@@ -26,7 +26,7 @@
                     <div class="card col m-1 p-2">
                         <div class="body">
                             @* Project Name *@
-                            <h5>@Model.Name </h5>
+                            <h5>@Model.Name</h5>
                             @* Project Description *@
                             <p>@Model.Description</p>
                             <div class="progress-container progress-info m-b-25">
@@ -128,9 +128,32 @@
                         </div>
                         <div class="body" style="overflow-y:auto;height:300px;">
                             <ul class="right_chat list-unstyled mb-0">
+                            @* Logic for avatars *@
 
-                                [Project Members]
-                                @* Logic for avatars *@
+                            @foreach (BTUser member in await ProjectService.GetAllProjectMembersExceptPMAsync(Model.Id)) 
+                            {
+                                <li class="">
+                                        <a href="">
+                                            <div class="media">
+                                                @if (member.AvatarFileData != null)
+                                                {
+                                                    <img class="" src="data:image/*;base64,@(Convert.ToBase64String(member.AvatarFileData))" alt=""  style="width:60px; height:60px;" />
+                                                }
+
+                                                else
+                                                {
+                                                    <img class="" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt=""  style="width:60px; height:60px;" />
+                                                }
+                                            </div>
+                                        </a>
+                                        
+                                        <div class="">
+                                            <span class="">@member.FullName</span>
+                                            <span class="" style="font-size:x-small"> [ @((await UserManager.GetRolesAsync(member)).FirstOrDefault())]</span>
+                                        </div>
+                                    </li>
+
+                            }
                             </ul>
 
                         </div>
