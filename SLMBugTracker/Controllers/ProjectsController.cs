@@ -60,7 +60,7 @@ namespace SLMBugTracker.Controllers
             return View(projects);
         }
 
-       public async Task<IActionResult> AllProjects()
+       public async Task<IActionResult> AllProjects() 
         {
 
             List<Project> projects = new();
