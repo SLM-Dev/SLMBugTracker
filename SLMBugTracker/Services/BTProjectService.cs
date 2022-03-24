@@ -212,7 +212,7 @@ namespace SLMBugTracker.Services
             }
             catch (Exception)
             {
-
+                 
                 throw;
             }
         }
@@ -225,15 +225,40 @@ namespace SLMBugTracker.Services
         // CRUD - Read
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
-            Project project = await _context.Projects
-                                            .Include(p => p.Tickets)
-                                            .Include(p => p.Members)
-                                            .Include(p => p.ProjectPriority)
-                                            .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
-            return project;
-        }
+            try
+            {
+                Project project = await _context.Projects
+                                                    .Include(p => p.Tickets)
+                                                        .ThenInclude(t => t.TicketPriority)
+                                                    .Include(p => p.Tickets)
+                                                        .ThenInclude(t => t.TicketStatus)
+                                                    .Include(p => p.Tickets)
+                                                        .ThenInclude(t => t.TicketType)
+                                                    .Include(p => p.Tickets)
+                                                        .ThenInclude(t => t.DeveloperUser)
+                                                    .Include(p => p.Tickets)
+                                                        .ThenInclude(t => t.OwnerUser)
+                                                    .Include(p => p.Members)
+                                                    .Include(p => p.ProjectPriority)
+                                                    .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
+            }
+            catch (Exception)
+            {
 
-        public async Task<BTUser> GetProjectManagerAsync(int projectId)
+                throw;
+            }
+            return project;
+
+
+
+
+
+
+
+
+
+
+            public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
             Project project = await _context.Projects
                                             .Include(p => p.Members)
