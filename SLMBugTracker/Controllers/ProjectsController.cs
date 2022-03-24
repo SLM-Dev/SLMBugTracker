@@ -51,11 +51,21 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> MyProjects()
         {
             string userId = _userManager.GetUserId(User);
+           
             List<Project> projects = await _projectService.GetUserProjectsAsync(userId);
+            
             return View(projects);
         }
 
+       public async Task<IActionResult> AllProjects()
+        {
 
+            List<Project> projects = new();
+
+            
+            
+            return View(projects);
+        }
 
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
