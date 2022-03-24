@@ -22,6 +22,7 @@ namespace SLMBugTracker.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
+        private readonly IBTCompanyInfoService _companyInfoService;
         private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
@@ -29,6 +30,7 @@ namespace SLMBugTracker.Controllers
                                   IBTLookupService lookupService,
                                   IBTFileService fileService,
                                   IBTProjectService projectService,
+                                  IBTCompanyInfoService companyInfoService,
                                   UserManager<BTUser> userManager)
 
         {
@@ -37,6 +39,7 @@ namespace SLMBugTracker.Controllers
             _lookupService = lookupService;
             _fileService = fileService;
             _projectService = projectService;
+            _companyInfoService = companyInfoService;
             _userManager = userManager;
         }
 
