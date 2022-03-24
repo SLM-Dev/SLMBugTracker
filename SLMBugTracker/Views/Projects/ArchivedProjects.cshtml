@@ -13,12 +13,7 @@
 
 <h1>Archive Projects</h1>
 
-@if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
+
 <table class="table">
     <thead>
         <tr>
