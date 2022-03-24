@@ -51,9 +51,9 @@
                     <div class="card col m-1 p-2">
                         <div class="body">
                             <ul class=" list-unstyled basic-list">
-                                <li>Start Date: <span class="">[Project Start Date]</span></li>
-                                <li>Deadline: <span class="">[Project End Date]</span></li>
-                                <li>Priority: <span class="">[Project Priority? Name]</span></li>
+                                <li>Start Date: <span class="">@Model.StartDate.ToString("dd MMM, yyyy")</span></li>
+                                <li>Deadline: <span class="">@Model.EndDate.ToString("dd MMM, yyyy")</span></li>
+                                <li>Priority: <span class="">@Model.ProjectPriority?.Name</span></li>
                                 @* if() logic *@
                                 [Project Active/Inactive]
                             </ul>
