@@ -12,7 +12,8 @@
 @{
     ViewData["Title"] = "Details";
 
-    
+    BTUser user = await UserManager.GetUserAsync(User);
+    BTUser projectManager = await ProjectService.GetProjectManagerAsync(Model.Id);
 }
 
 <h1>Details</h1>
