@@ -8,6 +8,7 @@
 
 @{
     ViewData["Title"] = "My Projects";
+    BTUser btUser = await UserManager.GetUserAsync(User);
 }
 
 <h1>My Projects</h1>
@@ -103,6 +104,9 @@
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
 
+                    @{
+                        bool isProjectPM = (await ProjectService.GetProjectManagerAsync)(item.Id)?.Id == btUser.Id;
+                    }
                     @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
