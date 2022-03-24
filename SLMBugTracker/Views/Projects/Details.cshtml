@@ -55,7 +55,15 @@
                                 <li>Deadline: <span class="">@Model.EndDate.ToString("dd MMM, yyyy")</span></li>
                                 <li>Priority: <span class="">@Model.ProjectPriority?.Name</span></li>
                                 @* if() logic *@
-                                [Project Active/Inactive]
+                                @if (today < end && today >= start)
+                                {
+                                    <li>Status: <span class="">Active</span></li>
+                                }
+
+                                else
+                                {
+                                    <li>Status: <span class="">Inactive</span></li>
+                                }
                             </ul>
                         </div>
                     </div> 
