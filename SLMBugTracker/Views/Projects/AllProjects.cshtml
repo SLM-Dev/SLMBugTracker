@@ -3,7 +3,9 @@
 @using Microsoft.AspNetCore.Identity
 @using SLMBugTracker.Services.Interfaces
 
-@inject UserManager
+@inject UserManager<BTUser> UserManager
+@inject IBTProjectService ProjectService    
+
 @{
     ViewData["Title"] = "My Projects";
 }
