@@ -22,7 +22,7 @@ namespace SLMBugTracker.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
-        private readonly IBTCompanyInfoService _companyInfoService; 
+        private readonly IBTCompanyInfoService _companyInfoService;
         private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
@@ -54,19 +54,19 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> MyProjects()
         {
             string userId = _userManager.GetUserId(User);
-           
+
             List<Project> projects = await _projectService.GetUserProjectsAsync(userId);
-            
+
             return View(projects);
         }
 
-       public async Task<IActionResult> AllProjects() 
+        public async Task<IActionResult> AllProjects()
         {
 
             List<Project> projects = new();
-            
+
             int companyId = User.Identity.GetCompanyId().Value;
-            if(User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+            if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
             {
                 projects = await _companyInfoService.GetAllProjectsAsync(companyId);
             }
@@ -74,7 +74,7 @@ namespace SLMBugTracker.Controllers
             {
                 projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
             }
-            
+
             return View(projects);
         }
 
@@ -248,7 +248,7 @@ namespace SLMBugTracker.Controllers
         {
 
             int companyId = User.Identity.GetCompanyId().Value;
-            
+
             var project = await _projectService.GetProjectByIdAsync(id, companyId);
             await _projectService.ArchiveProjectAsync(project);
 
