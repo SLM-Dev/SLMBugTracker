@@ -97,10 +97,9 @@ namespace SLMBugTracker.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects
-                .Include(p => p.Company)
-                .Include(p => p.ProjectPriority)
-                .FirstOrDefaultAsync(m => m.Id == id);
+    
+
+
             if (project == null)
             {
                 return NotFound();
