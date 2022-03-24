@@ -98,7 +98,7 @@ namespace SLMBugTracker.Controllers
             }
 
     
-
+            int companyId = User.Identity.GetCompanyId().Value;
 
             if (project == null)
             {
