@@ -22,7 +22,7 @@ namespace SLMBugTracker.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
-        private readonly IBTCompanyInfoService _companyInfoService;
+        private readonly IBTCompanyInfoService _companyInfoService; 
         private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context,
