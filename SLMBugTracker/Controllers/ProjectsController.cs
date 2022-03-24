@@ -100,6 +100,8 @@ namespace SLMBugTracker.Controllers
     
             int companyId = User.Identity.GetCompanyId().Value;
 
+            Project project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+
             if (project == null)
             {
                 return NotFound();
