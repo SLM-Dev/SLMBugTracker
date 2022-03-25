@@ -30,9 +30,17 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public Task<List<TicketPriority>> GetTicketPrioritiesAsync()
+        public async Task<List<TicketPriority>> GetTicketPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.TicketPriorities.ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public Task<List<TicketStatus>> GetTicketStatusesAsync()
         {
