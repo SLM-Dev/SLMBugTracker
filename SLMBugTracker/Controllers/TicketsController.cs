@@ -20,7 +20,7 @@ namespace SLMBugTracker.Controllers
                                  UserManager<BTUser> userManager)
         {
             _context = context;
-            _userManager = userManager;
+            _userManager = userManager; 
         }
 
         // GET: Tickets
