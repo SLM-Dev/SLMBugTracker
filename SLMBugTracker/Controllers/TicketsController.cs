@@ -80,8 +80,8 @@ namespace SLMBugTracker.Controllers
                 ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
             }
 
-            ViewData["TicketPriorityId"] = new SelectList(await _lookupService, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(, "Id", "Id");
+            ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
+            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
             return View();
         }
 
