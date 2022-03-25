@@ -14,11 +14,13 @@ namespace SLMBugTracker.Controllers
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<BTUser> _userManager;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<BTUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Tickets
