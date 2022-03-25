@@ -54,9 +54,17 @@ namespace SLMBugTracker.Services
                 throw;
             }
         }
-        public Task<List<TicketType>> GetTicketTypesAsync()
+        public async Task<List<TicketType>> GetTicketTypesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.TicketTypes.ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
