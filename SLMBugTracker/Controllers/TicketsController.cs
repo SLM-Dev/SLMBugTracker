@@ -232,7 +232,7 @@ namespace SLMBugTracker.Controllers
         // POST: Tickets/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             var ticket = await _context.Tickets.FindAsync(id);
             _context.Tickets.Remove(ticket);
