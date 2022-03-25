@@ -200,8 +200,8 @@ namespace SLMBugTracker.Controllers
             return View(ticket);
         }
 
-        // GET: Tickets/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Tickets/Archive/5
+        public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
             {
