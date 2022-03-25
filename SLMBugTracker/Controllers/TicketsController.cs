@@ -190,6 +190,7 @@ namespace SLMBugTracker.Controllers
                         throw;
                     }
                 }
+                //TODO: Add Ticket History
                 return RedirectToAction(nameof(Index));
             }
 
