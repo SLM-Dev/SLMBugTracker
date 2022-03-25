@@ -21,10 +21,12 @@ namespace SLMBugTracker.Controllers
         private readonly IBTProjectService _projectService;
 
         public TicketsController(ApplicationDbContext context,
-                                 UserManager<BTUser> userManager)
+                                 UserManager<BTUser> userManager, 
+                                 IBTProjectService projectService)
         {
             _context = context;
-            _userManager = userManager; 
+            _userManager = userManager;
+            _projectService = projectService;
         }
 
         // GET: Tickets
