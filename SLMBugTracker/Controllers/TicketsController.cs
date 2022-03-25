@@ -107,13 +107,14 @@ namespace SLMBugTracker.Controllers
                 await _ticketService.AddNewTicketAsync(ticket);
 
 
-
-
-
-
+                //TODO: Ticket History
+                //TODO: Ticket Notification
 
 
                 return RedirectToAction(nameof(Index));
+
+
+
             }
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
             ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
