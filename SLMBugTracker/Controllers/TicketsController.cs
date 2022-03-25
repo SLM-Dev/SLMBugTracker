@@ -55,9 +55,9 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public async IActionResult Create()
         {
-            BTUser bTUser = await _userManager
+            BTUser bTUser = await _userManager.GetUserAsync(User);
 
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
