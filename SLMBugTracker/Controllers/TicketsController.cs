@@ -141,7 +141,10 @@ namespace SLMBugTracker.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Tickets.FindAsync(id);
+            //var ticket = await _context.Tickets.FindAsync(id);
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
+
+
             if (ticket == null)
             {
                 return NotFound();
