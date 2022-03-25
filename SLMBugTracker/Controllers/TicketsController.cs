@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
+using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 
 namespace SLMBugTracker.Controllers
@@ -58,6 +59,8 @@ namespace SLMBugTracker.Controllers
         public async IActionResult Create()
         {
             BTUser bTUser = await _userManager.GetUserAsync(User);
+
+            int companyId = User.Identity.GetCompanyId().Value;
 
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
