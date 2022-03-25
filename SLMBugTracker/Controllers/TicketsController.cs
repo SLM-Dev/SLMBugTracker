@@ -95,12 +95,13 @@ namespace SLMBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,ProjectId,TicketTypeId,TicketPriorityId")] Ticket ticket)
         {
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
 
 
-                BTUser btUser = await _userManager.GetUserAsync(User);
-                
+
                 ticket.Created = DateTimeOffset.Now;
                 ticket.OwnerUserId = btUser.Id;
                 ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
@@ -112,21 +113,28 @@ namespace SLMBugTracker.Controllers
 
 
                 return RedirectToAction(nameof(Index));
-
-
-
             }
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
-        }
 
-        // GET: Tickets/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+                if (User.IsInRole(nameof(Roles.Admin)))
+                {
+                    ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(btUser.CompanyId), "Id", "Name");
+                }
+
+                else
+                {
+                    ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
+                }
+
+
+                ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
+                ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
+
+                return View(ticket);
+            }
+
+
+            // GET: Tickets/Edit/5
+            public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
