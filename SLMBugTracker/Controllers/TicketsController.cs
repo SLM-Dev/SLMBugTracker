@@ -10,6 +10,7 @@ using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 using SLMBugTracker.Models.Enums;
+using SLMBugTracker.Services.Interfaces;
 
 namespace SLMBugTracker.Controllers
 {
@@ -17,6 +18,7 @@ namespace SLMBugTracker.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTProjectService _projectService;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<BTUser> userManager)
@@ -65,10 +67,10 @@ namespace SLMBugTracker.Controllers
 
             if (User.IsInRole(nameof(Roles.Admin)))
             {
+            ViewData["ProjectId"] = new SelectList(await _projects, "Id", "Name");
 
             }
 
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
