@@ -69,7 +69,7 @@ namespace SLMBugTracker.Controllers
 
             if (User.IsInRole(nameof(Roles.Admin)))
             {
-            ViewData["ProjectId"] = new SelectList(await _projects, "Id", "Name");
+            ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId), "Id", "Name");
 
             }
 
