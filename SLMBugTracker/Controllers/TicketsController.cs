@@ -19,14 +19,17 @@ namespace SLMBugTracker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTProjectService _projectService;
+        private readonly IBTLookupService _lookupService;
 
         public TicketsController(ApplicationDbContext context,
-                                 UserManager<BTUser> userManager, 
-                                 IBTProjectService projectService)
+                                 UserManager<BTUser> userManager,
+                                 IBTProjectService projectService, 
+                                 IBTLookupService lookupService)
         {
             _context = context;
             _userManager = userManager;
             _projectService = projectService;
+            _lookupService = lookupService;
         }
 
         // GET: Tickets
@@ -77,8 +80,8 @@ namespace SLMBugTracker.Controllers
                 ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
             }
 
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
+            ViewData["TicketPriorityId"] = new SelectList(await _lookupService, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(, "Id", "Id");
             return View();
         }
 
