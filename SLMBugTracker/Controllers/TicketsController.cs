@@ -176,7 +176,7 @@ namespace SLMBugTracker.Controllers
 
                 try
                 {
-              
+                    ticket.Updated = DateTimeOffset.Now;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
