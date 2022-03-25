@@ -104,6 +104,7 @@ namespace SLMBugTracker.Controllers
                 ticket.Created = DateTimeOffset.Now;
                 ticket.OwnerUserId = btUser.Id;
                 ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
+                await _ticketService.AddNewTicketAsync(ticket);
 
 
 
@@ -112,8 +113,6 @@ namespace SLMBugTracker.Controllers
 
 
 
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
