@@ -20,16 +20,19 @@ namespace SLMBugTracker.Controllers
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTProjectService _projectService;
         private readonly IBTLookupService _lookupService;
+        private readonly IBTTicketService _ticketService;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<BTUser> userManager,
-                                 IBTProjectService projectService, 
-                                 IBTLookupService lookupService)
+                                 IBTProjectService projectService,
+                                 IBTLookupService lookupService, 
+                                 IBTTicketService ticketService)
         {
             _context = context;
             _userManager = userManager;
             _projectService = projectService;
             _lookupService = lookupService;
+            _ticketService = ticketService;
         }
 
         // GET: Tickets
@@ -94,6 +97,21 @@ namespace SLMBugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
+                BTUser btUser = await _userManager.GetUserAsync(User);
+                
+                ticket.Created = DateTimeOffset.Now;
+                ticket.OwnerUserId = btUser.Id;
+                ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync()
+
+
+
+
+
+
+
+
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
