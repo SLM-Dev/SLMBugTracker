@@ -238,7 +238,7 @@ namespace SLMBugTracker.Controllers
 
         private bool TicketExists(int id)
         {
-            return _context.Tickets.Any(e => e.Id == id);
+            int companyId = User.Identity.GetCompanyId().Value;
         }
     }
 }
