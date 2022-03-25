@@ -64,7 +64,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        public async IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             BTUser btUser = await _userManager.GetUserAsync(User);
 
@@ -82,9 +82,9 @@ namespace SLMBugTracker.Controllers
 
             ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
             ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
+
             return View();
         }
-
         // POST: Tickets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
