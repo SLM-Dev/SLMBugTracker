@@ -236,7 +236,9 @@ namespace SLMBugTracker.Controllers
         {
             Ticket ticket = await _ticketService.GetTicketByIdAsync(id);
             ticket.Archived = true;
+            await _ticketService.UpdateTicketAsync(ticket);
 
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task <bool> TicketExists(int id)
