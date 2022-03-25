@@ -229,8 +229,8 @@ namespace SLMBugTracker.Controllers
             return View(ticket);
         }
 
-        // POST: Tickets/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Tickets/Archive/5
+        [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
