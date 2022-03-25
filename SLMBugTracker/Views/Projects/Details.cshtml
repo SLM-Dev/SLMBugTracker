@@ -182,11 +182,7 @@
                                         <p>@($"Previous {history.Property}: {history.OldValue}")</p>
                                         <p>@($"Current {history.Property}: {history.NewValue}")</p>
 
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h6 class="mb-0"></h6>
-                                            </div>
-                                        </div>
+                                   
                                     </div>
                                 </div>
 
@@ -209,7 +205,13 @@
                                     <thead class="">
                                         <tr>
                                             @* Table header *@
-                                            [Ticket Table header]
+                                                                                        
+                                            <th>Title</th>
+                                            <th>Developer</th>
+                                            <th>Status</th>
+                                            <th>Priority</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
