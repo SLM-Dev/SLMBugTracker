@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.Enums;
 
 namespace SLMBugTracker.Controllers
 {
@@ -61,6 +62,11 @@ namespace SLMBugTracker.Controllers
             BTUser bTUser = await _userManager.GetUserAsync(User);
 
             int companyId = User.Identity.GetCompanyId().Value;
+
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
+
+            }
 
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
