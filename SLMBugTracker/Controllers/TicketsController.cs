@@ -171,10 +171,12 @@ namespace SLMBugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                BTUser btUser = await _userManager.GetUserAsync(User);
+
+
                 try
                 {
-                    _context.Update(ticket);
-                    await _context.SaveChangesAsync();
+              
                 }
                 catch (DbUpdateConcurrencyException)
                 {
