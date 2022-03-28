@@ -94,7 +94,10 @@
                 </td> 
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    @if(User.IsInRole(nameof(Roles.Admin)) || item.DeveloperUserId == btUser.Id || item.OwnerUserId == btUser.Id || )
+                    @if(User.IsInRole(nameof(Roles.Admin)) || item.DeveloperUserId == btUser.Id || item.OwnerUserId == btUser.Id || await ProjectService.IsAssignedProjectManagerAsync(btUser.Id, item.ProjectId))
+                    {
+                        
+                    }
                     
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     
