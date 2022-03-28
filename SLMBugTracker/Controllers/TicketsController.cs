@@ -42,7 +42,9 @@ namespace SLMBugTracker.Controllers
         {
             BTUser btUser = await _userManager.GetUserAsync(User);
 
-            List<Ticket> tickets =
+            List<Ticket> tickets = await _ticketService.GetTicketsByUserIdAsync(btUser.Id, btUser.CompanyId);
+
+            return 
         }
 
         {
