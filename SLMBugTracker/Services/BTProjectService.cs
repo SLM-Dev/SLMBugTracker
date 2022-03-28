@@ -110,7 +110,7 @@ namespace SLMBugTracker.Services
                 await UpdateProjectAsync(project);
 
                 //Archive the Tickets for the Project
-                foreach(Ticket ticket in project.Tickets)
+                foreach (Ticket ticket in project.Tickets)
                 {
                     ticket.ArchivedByProject = true;
                     _context.Update(ticket);
@@ -163,7 +163,7 @@ namespace SLMBugTracker.Services
                                              .Include(p => p.ProjectPriority)
                                              .ToListAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -174,7 +174,7 @@ namespace SLMBugTracker.Services
         public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
             List<Project> projects = await GetAllProjectsByCompanyAsync(companyId);
-            
+
             int projectId = await LookupProjectPriorityId(priorityName);
 
             return projects.Where(p => p.ProjectPriorityId == projectId).ToList();
@@ -212,7 +212,7 @@ namespace SLMBugTracker.Services
             }
             catch (Exception)
             {
-                 
+
                 throw;
             }
         }
@@ -244,7 +244,7 @@ namespace SLMBugTracker.Services
             return project;
         }
 
-            public async Task<BTUser> GetProjectManagerAsync(int projectId)
+        public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
             Project project = await _context.Projects
                                             .Include(p => p.Members)
@@ -342,8 +342,12 @@ namespace SLMBugTracker.Services
             return result;
         }
 
-        #region IsAssignedProjectManager
+        #region Is Assigned Project Manager
 
+        public async Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId)
+        {
+
+        }
         #endregion
 
         public async Task<int> LookupProjectPriorityId(string priorityName)
