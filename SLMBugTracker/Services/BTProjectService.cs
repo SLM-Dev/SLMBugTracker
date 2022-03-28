@@ -342,6 +342,10 @@ namespace SLMBugTracker.Services
             return result;
         }
 
+        #region IsAssignedProjectManager
+
+        #endregion
+
         public async Task<int> LookupProjectPriorityId(string priorityName)
         {
             int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
