@@ -47,10 +47,10 @@ namespace SLMBugTracker.Controllers
             return View(tickets);
         }
 
-        {
-            var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            return View(await applicationDbContext.ToListAsync());
-        }
+        
+            // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            // return View(await applicationDbContext.ToListAsync());
+        
 
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
