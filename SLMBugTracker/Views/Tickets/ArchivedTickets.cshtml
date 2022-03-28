@@ -11,7 +11,7 @@
     BTUser btUser = await UserManager.GetUserAsync(User);
 }
 
-<h1>Archived Tickets</h1> 
+<h1>Archived Tickets</h1>
 
 
 <table class="table">
@@ -89,26 +89,24 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
-                </td> 
+                </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    @if(User.IsInRole(nameof(Roles.Admin)) || item.DeveloperUserId == btUser.Id || item.OwnerUserId == btUser.Id || await ProjectService.IsAssignedProjectManagerAsync(btUser.Id, item.ProjectId))
-                    {
-                    
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-                    }
                     @if (User.IsInRole(nameof(Roles.Admin)) || await ProjectService.IsAssignedProjectManagerAsync(btUser.Id, item.ProjectId))
                     {
+
+                        <span>|</span>
+
                         if (item.Archived)
                         {
-                        <a asp-action="Restore" asp-route-id="@item.Id">Restore</a>
+                            <a asp-action="Restore" asp-route-id="@item.Id">Restore</a>
 
                         }
-                    else
-                    {
-                        <a asp-action="Archive" asp-route-id="@item.Id">Archive</a>
-                    }
+                        else
+                        {
+                            <a asp-action="Archive" asp-route-id="@item.Id">Archive</a>
+                        }
                     }
 
                 </td>
