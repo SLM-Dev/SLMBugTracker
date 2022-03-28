@@ -39,6 +39,11 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> Index()
 
         public async Task<IActionResult> MyTickets()
+        {
+            BTUser btUser = await _userManager.GetUserAsync(User);
+
+            List<Ticket> tickets =
+        }
 
         {
             var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
