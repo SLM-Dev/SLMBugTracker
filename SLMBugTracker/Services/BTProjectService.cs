@@ -346,7 +346,15 @@ namespace SLMBugTracker.Services
 
         public async Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId)
         {
-
+            try
+            {
+                string projectManagerId = (await GetProjectManagerAsync(projectId))?.Id;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         #endregion
 
