@@ -364,7 +364,7 @@ namespace SLMBugTracker.Services
             catch (System.Exception)
             {
                 
-                throw;
+                throw; 
             }
         }
         #endregion
