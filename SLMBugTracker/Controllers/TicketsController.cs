@@ -52,8 +52,25 @@ namespace SLMBugTracker.Controllers
 
         public async Task<IActionResult> AllTickets()
         {
+            int companyId = User.Identity.GetCompanyId().Value;
+            List<Ticket> tickets = await _ticketService.GetAllTicketsByCompanyAsync(companyId);
+
+            if (User.IsInRole(nameof(Roles.Developer)) || User.IsInRole(nameof(Roles.Submitter)))
+            {
+                return View(tickets.Where(u => u.Archived == false));
+            }
+
+            else
+            {
+                return View(tickets);
+            }
 
         }
+
+
+
+
+    }
 
             // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             // return View(await applicationDbContext.ToListAsync());
