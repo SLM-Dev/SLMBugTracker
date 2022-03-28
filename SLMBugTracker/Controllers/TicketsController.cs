@@ -69,6 +69,10 @@ namespace SLMBugTracker.Controllers
         }
 
 
+        public async Task<IActionResult> ArchivedTickets()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+        }
 
 
     
