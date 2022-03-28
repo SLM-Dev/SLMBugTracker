@@ -3,6 +3,9 @@
 @using Microsoft.AspNetCore.Identity
 @using SLMBugTracker.Models.Enums
 
+@inject UserManager<BTUser> UserManager
+@inject IBTProjectService ProjectService
+
 @{
     ViewData["Title"] = "All Tickets";
 }
