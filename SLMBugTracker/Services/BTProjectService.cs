@@ -349,6 +349,17 @@ namespace SLMBugTracker.Services
             try
             {
                 string projectManagerId = (await GetProjectManagerAsync(projectId))?.Id;
+
+                if (projectManagerId == userId)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+                
             }
             catch (System.Exception)
             {
