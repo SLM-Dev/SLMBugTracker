@@ -73,6 +73,7 @@ namespace SLMBugTracker.Controllers
         {
             int companyId = User.Identity.GetCompanyId().Value;
             List<Ticket> tickets = await _ticketService.GetArchivedTicketsAsync(companyId);
+            return View(tickets);
         }
 
 
