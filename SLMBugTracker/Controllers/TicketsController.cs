@@ -99,6 +99,9 @@ namespace SLMBugTracker.Controllers
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
+            await _ticketService.GetTicketByIdAsync(id.Value);
+            
             if (ticket == null)
             {
                 return NotFound();
