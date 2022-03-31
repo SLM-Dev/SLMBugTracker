@@ -93,7 +93,7 @@ namespace SLMBugTracker.Controllers
 
           
             
-            await _ticketService.GetTicketByIdAsync(id.Value);
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
             
             if (ticket == null)
             {
