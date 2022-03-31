@@ -56,13 +56,13 @@
                                 @*Ticket date*@
                                 <li><strong>Date Entered:</strong> <span class="">  @Model.Created.ToString("dd MMM, yyyy")</</span></li>
                                 @*Project end date*@
-                                <li><strong>Deadline:</strong> <span class="">  [Project End date]</</span></li>
+                                <li><strong>Deadline:</strong> <span class="">  @Model.Project.EndDate.ToString("dd MMM, yyyy")</</span></li>
                                 @*Ticket type*@
-                                <li><strong>Type:</strong> <span class="">  [Ticket Type]</span></li>
+                                <li><strong>Type:</strong> <span class="">  @Model.TicketType.Name</span></li>
                                 @*Ticket priority*@
-                                <li><strong>Priority:</strong> <span class="">  [Ticket priority]</span></li>
+                                <li><strong>Priority:</strong> <span class="">  @Model.TicketPriority.Name</span></li>
                                 @*Ticket status*@
-                                <li><strong>Status:</strong> <span class="">  [Ticket status]</span></li>
+                                <li><strong>Status:</strong> <span class="">  @Model.TicketStatus.Name</span></li>
                             </ul>
                         </div>
                     </div>
