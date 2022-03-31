@@ -4,6 +4,11 @@
 @using Microsoft.AspNetCore.Identity
 
 
+@inject UserManager<BTUser> UserManager
+@inject IBTProjectService ProjectService
+@inject IBTTicketHistoryService HistoryService
+@inject IBTFileService FileService
+
 @{
     ViewData["Title"] = "Details";
 }
