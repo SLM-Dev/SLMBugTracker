@@ -54,7 +54,8 @@ namespace SLMBugTracker.Services
             }
         }
 
-        public async Task AddTicketComment(TicketComment ticketComment)
+        #region Add Ticket Comment
+        public async Task AddTicketCommentAsync(TicketComment ticketComment)
         {
             try
             {
@@ -66,7 +67,12 @@ namespace SLMBugTracker.Services
 
                 throw;
             }
-        }
+        } 
+        #endregion
+
+
+
+
         public async Task AssignTicketAsync(int ticketId, string userId)
         {
             Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
