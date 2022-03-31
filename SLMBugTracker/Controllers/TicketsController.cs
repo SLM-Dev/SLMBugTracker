@@ -237,6 +237,15 @@ namespace SLMBugTracker.Controllers
             return View(ticket);
         }
 
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+
+
+
+
         // GET: Tickets/Archive/5
         public async Task<IActionResult> Archive(int? id)
         {
