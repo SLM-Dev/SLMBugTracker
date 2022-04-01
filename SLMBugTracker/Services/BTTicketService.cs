@@ -70,7 +70,23 @@ namespace SLMBugTracker.Services
         } 
         #endregion
 
+        #region Add Ticket Attachment
 
+        public async Task AddTicketAttachmentAsync(TicketAttachment ticketAttachment)
+        {
+            try
+            {
+                await _context.AddAsync(ticketAttachment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
 
 
         public async Task AssignTicketAsync(int ticketId, string userId)
