@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SLMBugTracker.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,10 +31,14 @@ namespace SLMBugTracker.Models
         [DisplayName("File Description")]
         public string Description { get; set; }
 
-        [NotMapped]
-        [DataType(DataType.Upload)]
 
         // 
+        [NotMapped]
+        [DataType(DataType.Upload)]
+        [MaxFileSize(1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".doc", ".docx", ".xls", ".xlsx", ".pdf" } )]
+        // [NotMapped]
+        
         public IFormFile FormFile { get; set; }
         [DisplayName("File Name")]
         public string FileName { get; set; }
