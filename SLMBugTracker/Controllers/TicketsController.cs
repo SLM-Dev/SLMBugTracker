@@ -21,18 +21,21 @@ namespace SLMBugTracker.Controllers
         private readonly IBTProjectService _projectService;
         private readonly IBTLookupService _lookupService;
         private readonly IBTTicketService _ticketService;
+        private readonly IBTFileService _fileService;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<BTUser> userManager,
                                  IBTProjectService projectService,
                                  IBTLookupService lookupService,
-                                 IBTTicketService ticketService)
+                                 IBTTicketService ticketService, 
+                                 IBTFileService fileService)
         {
             _context = context;
             _userManager = userManager;
             _projectService = projectService;
             _lookupService = lookupService;
             _ticketService = ticketService;
+            _fileService = fileService;
         }
 
         // GET: Tickets
@@ -77,10 +80,10 @@ namespace SLMBugTracker.Controllers
         }
 
 
-    
 
-            // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            // return View(await applicationDbContext.ToListAsync());
+
+        // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+        // return View(await applicationDbContext.ToListAsync());
 
 
         // GET: Tickets/Details/5
@@ -91,10 +94,10 @@ namespace SLMBugTracker.Controllers
                 return NotFound();
             }
 
-          
-            
+
+
             Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
-            
+
             if (ticket == null)
             {
                 return NotFound();
@@ -112,7 +115,7 @@ namespace SLMBugTracker.Controllers
 
             if (User.IsInRole(nameof(Roles.Admin)))
             {
-            ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId), "Id", "Name");
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId), "Id", "Name");
 
             }
             else
@@ -152,26 +155,26 @@ namespace SLMBugTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-                if (User.IsInRole(nameof(Roles.Admin)))
-                {
-                    ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(btUser.CompanyId), "Id", "Name");
-                }
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(btUser.CompanyId), "Id", "Name");
+            }
 
-                else
-                {
-                    ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
-                }
-
-
-                ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
-                ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
-
-                return View(ticket);
+            else
+            {
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
             }
 
 
-            // GET: Tickets/Edit/5
-            public async Task<IActionResult> Edit(int? id)
+            ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
+            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
+
+            return View(ticket);
+        }
+
+
+        // GET: Tickets/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -214,7 +217,7 @@ namespace SLMBugTracker.Controllers
                 try
                 {
                     ticket.Updated = DateTimeOffset.Now;
-                    await _ticketService.UpdateTicketAsync(ticket); 
+                    await _ticketService.UpdateTicketAsync(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -242,17 +245,17 @@ namespace SLMBugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult>    ([Bind("Id, TicketId, Comment")] TicketComment ticketComment)
-         {
+        public async Task<IActionResult> AddTicketComment([Bind("Id, TicketId, Comment")] TicketComment ticketComment)
+        {
             if (ModelState.IsValid)
             {
                 try
                 {
                     ticketComment.UserId = _userManager.GetUserId(User);
                     ticketComment.Created = DateTimeOffset.Now;
-                    
+
                     await _ticketService.AddTicketCommentAsync(ticketComment);
-                    
+
 
                 }
 
@@ -264,6 +267,34 @@ namespace SLMBugTracker.Controllers
             }
 
             return RedirectToAction("Details", new { id = ticketComment.TicketId });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTicketAttachment([Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment)
+        {
+            string statusMessage;
+
+            if (ModelState.IsValid && ticketAttachment.FormFile != null)
+            {
+                ticketAttachment.FileData = await _fileService.ConvertFileToByteArrayAsync(ticketAttachment.FormFile);
+                ticketAttachment.FileName = ticketAttachment.FormFile.FileName;
+                ticketAttachment.FileContentType = ticketAttachment.FormFile.ContentType;
+
+                ticketAttachment.Created = DateTimeOffset.Now;
+                ticketAttachment.UserId = _userManager.GetUserId(User);
+
+                await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
+                statusMessage = "Success: New attachment added to Ticket.";
+            }
+            else
+            {
+                statusMessage = "Error: Invalid data.";
+
+            }
+
+            return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
 
 
@@ -350,7 +381,7 @@ namespace SLMBugTracker.Controllers
         }
 
 
-        private async Task <bool> TicketExists(int id)
+        private async Task<bool> TicketExists(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
             return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(u => u.Id == id);
