@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,7 @@ namespace SLMBugTracker.Controllers
                                  UserManager<BTUser> userManager,
                                  IBTProjectService projectService,
                                  IBTLookupService lookupService,
-                                 IBTTicketService ticketService, 
+                                 IBTTicketService ticketService,
                                  IBTFileService fileService)
         {
             _context = context;
@@ -297,6 +298,17 @@ namespace SLMBugTracker.Controllers
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
 
+
+        public async Task<IActionResult> ShowFile(int id)
+        {
+            TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
+            string fileName = ticketAttachment.FileName;
+            byte[] fileData = ticketAttachment.FileData;
+            string ext = Path.GetExtension(fileName).Replace(".", "");
+
+            Response.Headers.Add("Content-Disposition", $"inline; filename={fileName}");
+            return File(fileData, $"application/{ext}");
+        }
 
         // GET: Tickets/Archive/5
         public async Task<IActionResult> Archive(int? id)
