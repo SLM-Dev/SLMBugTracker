@@ -80,6 +80,16 @@ namespace SLMBugTracker.Controllers
             return View(tickets);
         }
 
+      
+        public async Task<IActionResult> UnassignedTickets()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Ticket> tickets = await _ticketService.GetUnassignedTicketsAsync(companyId);
+
+            
+                return View(tickets);
+            
 
 
 
