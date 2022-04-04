@@ -126,6 +126,7 @@ namespace SLMBugTracker.Controllers
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
+        {
         
         if(model.DeveloperId != null)
         {
