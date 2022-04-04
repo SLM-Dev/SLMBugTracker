@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -80,16 +81,17 @@ namespace SLMBugTracker.Controllers
             return View(tickets);
         }
 
-      
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<IActionResult> UnassignedTickets()
         {
             int companyId = User.Identity.GetCompanyId().Value;
-
+            
             List<Ticket> tickets = await _ticketService.GetUnassignedTicketsAsync(companyId);
 
+          
             
                 return View(tickets);
-            
+            }
 
 
 
