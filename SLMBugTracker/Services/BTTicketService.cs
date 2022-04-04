@@ -448,6 +448,23 @@ namespace SLMBugTracker.Services
             }
         }
 
+        #region GetUnassignedTicketsAsync
+        public async Task<List<Ticket>> GetUnassignedTicketsAsync(int companyId)
+        {
+            List<Ticket> tickets = new(); 
+
+            try
+            {
+                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(u => string.IsNullOrEmpty(u.DeveloperUserId)).ToList();
+                return tickets;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
 
         public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
         {
