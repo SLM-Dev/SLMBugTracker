@@ -116,7 +116,7 @@ namespace SLMBugTracker.Controllers
             AssignDeveloperViewModel model = new();
 
             model.Ticket = await _ticketService.GetTicketByIdAsync(id);
-            model.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(model.Ticket.Project.Id, nameof(Roles.Developer)),                                  "Id", "FullName");
+            model.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(model.Ticket.ProjectId, nameof(Roles.Developer)),                                  "Id", "FullName");
          
             return View(model);
         }
