@@ -85,14 +85,29 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> UnassignedTickets()
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            
+            string btUserId = _userManager.GetUserId(User);
+
             List<Ticket> tickets = await _ticketService.GetUnassignedTicketsAsync(companyId);
 
-          
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
             
                 return View(tickets);
             }
+            else
+            {
+                List<Ticket> pmTickets = new();
+                foreach(Ticket ticket in tickets)
+                {
+                    if(await _projectService.IsAssignedProjectManagerAsync(btUserId, ticket.ProjectId))
+                    {
+                        pmTickets.Add(ticket);
+                    }
+                }
 
+                return View(pmTickets);
+            }
+        }
 
 
         // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
