@@ -394,6 +394,25 @@ namespace SLMBugTracker.Services
             }
         }
 
+        #region GetTicketAttachmentByIdAsync
+        public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
+        {
+            try
+            {
+                TicketAttachment ticketAttachment = await _context.TicketAttachments
+                                                                  .Include(t => t.User)
+                                                                  .FirstOrDefaultAsync(t => t.Id == ticketAttachmentId);
+                return ticketAttachment;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
         public async Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
             BTUser btUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
