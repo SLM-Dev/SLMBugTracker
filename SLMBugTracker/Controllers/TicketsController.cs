@@ -12,6 +12,7 @@ using SLMBugTracker.Data;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 using SLMBugTracker.Models.Enums;
+using SLMBugTracker.Models.ViewModels;
 using SLMBugTracker.Services.Interfaces;
 
 namespace SLMBugTracker.Controllers
@@ -112,7 +113,12 @@ namespace SLMBugTracker.Controllers
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
-            
+            AssignDeveloperViewModel model = new();
+
+            model.Ticket = await _ticketService.GetTicketByIdAsync(id);
+            model.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(model.Ticket.Project.Id, nameof(Roles.Developer)),                                  "Id", "FullName");
+         
+            return View(model);
         }
 
 
