@@ -20,7 +20,7 @@ namespace SLMBugTracker.Services.Interfaces
      public Task<string> GetRoleNameByIdAsync(string roleId);
     
     
-
+ 
     } 
 }
  
