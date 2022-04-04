@@ -126,9 +126,15 @@ namespace SLMBugTracker.Controllers
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
+        
+        if(model.DeveloperId != null)
         {
-            
+            await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
         }
+
+         return RedirectToAction(nameof(AssignDeveloper), new {id = model.Ticket.Id});
+
+    }
 
         // var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
         // return View(await applicationDbContext.ToListAsync());
