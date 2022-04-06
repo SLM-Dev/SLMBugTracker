@@ -285,6 +285,14 @@ namespace SLMBugTracker.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<Project>> GetUnassignedProjectsAsync(int companyId)
+        {
+            List<Project> result = new();
+            List<Project> projects = new();
+        }
+
+            
+
         public async Task<List<Project>> GetUserProjectsAsync(string userId)
         {
             try
