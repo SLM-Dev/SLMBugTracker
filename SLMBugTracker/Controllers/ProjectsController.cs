@@ -80,6 +80,7 @@ namespace SLMBugTracker.Controllers
 
 
         public async Task<IActionResult> ArchivedProjects()
+        
         {
             int companyId = User.Identity.GetCompanyId().Value;
 
@@ -87,6 +88,12 @@ namespace SLMBugTracker.Controllers
             List<Project> projects = await _projectService.GetArchivedProjectsByCompany(companyId);
 
             return View(projects);
+        }
+
+
+        public async Task<IActionResult> UnassignedProjects()
+        {
+            
         }
 
         // GET: Projects/Details/5
