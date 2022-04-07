@@ -289,8 +289,30 @@ namespace SLMBugTracker.Services
         {
             List<Project> result = new();
             List<Project> projects = new();
-        }
+        
+        try
+            {
+                projects = await _context.Projects
+                    .Include(u => u.ProjectPriority)
+                    .Where(u => u.CompanyId == companyId)
+                    .ToListAsync();
 
+                foreach (Project project in projects)
+                {
+                    if ((await GetProjectMembersByRoleAsync(project.Id, nameof(Roles.ProjectManager))).Count == 0)
+                    {
+                        result.Add(project);
+                    }
+
+                }
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+                return result;
+        }
             
 
         public async Task<List<Project>> GetUserProjectsAsync(string userId)
