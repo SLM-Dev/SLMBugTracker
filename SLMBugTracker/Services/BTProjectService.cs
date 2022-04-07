@@ -291,10 +291,10 @@ namespace SLMBugTracker.Services
             List<Project> projects = new();
         
         try
-            {
+        {
                 projects = await _context.Projects
-                    .Include(u => u.ProjectPriority)
-                    .Where(u => u.CompanyId == companyId)
+                    .Include(p => p.ProjectPriority)
+                    .Where(p => p.CompanyId == companyId)
                     .ToListAsync();
 
                 foreach (Project project in projects)
