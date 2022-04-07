@@ -94,8 +94,12 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> UnassignedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
+
             List<Project> projects = new();
-            projects = await _projectService.
+
+            projects = await _projectService.GetUnassignedProjectsAsync(companyId);
+        
+            return View(projects);
         }
 
         // GET: Projects/Details/5
