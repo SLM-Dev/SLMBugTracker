@@ -33,7 +33,7 @@ namespace SLMBugTracker.Services.Interfaces
         public Task<Project> GetProjectByIdAsync(int projectId, int companyId);
 
         public Task<List<BTUser>> GetSubmittersOnProjectAsync(int projectId);
-        public Task<List<BTUser>> GetUnassignedProjectsAsync(int projectId); 
+        public Task<List<BTUser>> GetUnassignedProjectsAsync(int companyId); 
 
         public Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId);
 
