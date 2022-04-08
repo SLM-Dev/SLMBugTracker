@@ -111,6 +111,8 @@ namespace SLMBugTracker.Controllers
             model.Project = await _projectService.GetProjectByIdAsync(projectId, companyId);
 
             model.PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(nameof(Roles.ProjectManager), companyId), "Id", "FullName");
+
+            return View(model);
         }
 
         // GET: Projects/Details/5
