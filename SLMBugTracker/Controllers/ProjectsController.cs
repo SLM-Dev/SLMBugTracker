@@ -115,9 +115,11 @@ namespace SLMBugTracker.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPM(AssignPMViewModel model)
         {
-            
+
         }
 
 
