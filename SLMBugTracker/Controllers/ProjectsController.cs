@@ -101,7 +101,7 @@ namespace SLMBugTracker.Controllers
         
             return View(projects);
         }
-
+        [HttpGet]
         public async Task<IActionResult> AssignPM(int projectId)
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -131,7 +131,10 @@ namespace SLMBugTracker.Controllers
 
         public async Task<IActionResult> AssignMembers(int id)
         {
+            ProjectMembersViewModel model = new();
 
+            int companyId = User.Identity.GetCompanyId().Value;
+        
         }
 
 
