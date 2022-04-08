@@ -115,6 +115,12 @@ namespace SLMBugTracker.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> AssignPM(AssignPMViewModel model)
+        {
+            
+        }
+
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
