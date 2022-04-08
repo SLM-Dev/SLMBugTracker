@@ -127,7 +127,12 @@ namespace SLMBugTracker.Controllers
 
             return RedirectToAction(nameof(AssignPM), new { projectId = model.Project.Id });
         }
-        
+
+
+        public async Task<IActionResult> AssignMembers(int id)
+        {
+
+        }
 
 
         // GET: Projects/Details/5
