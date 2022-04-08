@@ -129,12 +129,14 @@ namespace SLMBugTracker.Controllers
         }
 
 
+        [HttpGet]
         public async Task<IActionResult> AssignMembers(int id)
         {
             ProjectMembersViewModel model = new();
 
             int companyId = User.Identity.GetCompanyId().Value;
         
+            model.Project = await _projectService.GetProjectByIdAsync(id, companyId);
         }
 
 
