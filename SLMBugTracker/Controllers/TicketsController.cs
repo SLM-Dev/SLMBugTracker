@@ -132,7 +132,24 @@ namespace SLMBugTracker.Controllers
         
         if(model.DeveloperId != null)
         {
-            await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                BTUser btuser = await _userManager.GetUserIdAsync(User);
+                //oldTicket
+                Ticket oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+
+                try
+                {
+                    await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                //newTicket
+
+
+            
             return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
             }
 
