@@ -202,11 +202,15 @@ namespace SLMBugTracker.Controllers
 
                 ticket.Created = DateTimeOffset.Now;
                 ticket.OwnerUserId = btUser.Id;
+                
                 ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
+                
                 await _ticketService.AddNewTicketAsync(ticket);
 
 
                 //TODO: Ticket History
+                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+
                 //TODO: Ticket Notification
 
 
