@@ -184,6 +184,9 @@ namespace SLMBugTracker.Services
 
                 };
 
+                await _context.TicketHistories.AddAsync(history);
+                await _context.SaveChangesAsync();
+
             }
             catch (Exception)
             {
