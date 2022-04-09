@@ -132,7 +132,7 @@ namespace SLMBugTracker.Controllers
         
         if(model.DeveloperId != null)
         {
-                BTUser btuser = await _userManager.GetUserIdAsync(User);
+                BTUser btUser = await _userManager.GetUserAsync(User);
                 //oldTicket
                 Ticket oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
 
@@ -147,7 +147,8 @@ namespace SLMBugTracker.Controllers
                 }
 
                 //newTicket
-
+                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+                await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
 
             
             return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
