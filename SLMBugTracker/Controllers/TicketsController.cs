@@ -198,21 +198,27 @@ namespace SLMBugTracker.Controllers
             if (ModelState.IsValid)
             {
 
+                try
+                {
+                    ticket.Created = DateTimeOffset.Now;
+                    ticket.OwnerUserId = btUser.Id;
+
+                    ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
+
+                    await _ticketService.AddNewTicketAsync(ticket);
 
 
-                ticket.Created = DateTimeOffset.Now;
-                ticket.OwnerUserId = btUser.Id;
-                
-                ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
-                
-                await _ticketService.AddNewTicketAsync(ticket);
+                    //TODO: Ticket History
+                    Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                    await _historyService.AddHistoryAsync(null, newTicket, btUser.Id);
 
+                    //TODO: Ticket Notification
+                }
+                catch (Exception)
+                {
 
-                //TODO: Ticket History
-                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
-                await _historyService.AddHistoryAsync(null, newTicket, btUser.Id);
-
-                //TODO: Ticket Notification
+                    throw;
+                }
 
 
                 return RedirectToAction(nameof(Index));
