@@ -67,7 +67,7 @@ namespace SLMBugTracker.Services
 
                 throw;
             }
-        } 
+        }
         #endregion
 
         #region Add Ticket Attachment
@@ -298,7 +298,7 @@ namespace SLMBugTracker.Services
 
                 throw;
             }
-        } 
+        }
 
         public async Task<List<Ticket>> GetProjectTicketsByTypeAsync(string typeName, int companyId, int projectId)
         {
@@ -394,6 +394,30 @@ namespace SLMBugTracker.Services
             }
         }
 
+
+        #region Get Ticket As No Tracking
+        public async Task<Ticket> GetTicketAsNoTrackingAsync(int ticketId)
+        {
+            try
+            {
+                return await _context.Tickets
+                                     .Include(t => t.DeveloperUser)
+                                     .Include(t => t.Project)
+                                     .Include(t => t.TicketPriority)
+                                     .Include(t => t.TicketStatus)
+                                     .Include(t => t.TicketType)
+                                     .AsNoTracking()
+                                     .FirstOrDefaultAsync(t => t.Id == ticketId);
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+
+        } 
+        #endregion
+
         #region GetTicketAttachmentByIdAsync
         public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
         {
@@ -451,7 +475,7 @@ namespace SLMBugTracker.Services
         #region GetUnassignedTicketsAsync
         public async Task<List<Ticket>> GetUnassignedTicketsAsync(int companyId)
         {
-            List<Ticket> tickets = new(); 
+            List<Ticket> tickets = new();
 
             try
             {
