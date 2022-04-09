@@ -164,6 +164,7 @@ namespace SLMBugTracker.Services
     }
  }
 
+        #region Add History (2)
         public async Task AddHistoryAsync(int ticketId, string model, string userId)
         {
             try
@@ -193,7 +194,8 @@ namespace SLMBugTracker.Services
 
                 throw;
             }
-        }
+        } 
+        #endregion
 
 
 
