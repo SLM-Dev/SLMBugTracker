@@ -210,6 +210,7 @@ namespace SLMBugTracker.Controllers
 
                 //TODO: Ticket History
                 Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                await _historyService.AddHistoryAsync(null, newTicket, btUser.Id);
 
                 //TODO: Ticket Notification
 
