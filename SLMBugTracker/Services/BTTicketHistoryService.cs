@@ -171,6 +171,19 @@ namespace SLMBugTracker.Services
                 Ticket ticket = await _context.Tickets.FindAsync(ticketId);
                 string description = model.ToLower().Replace("Ticket", "");
                 description = $"New {description} add to ticket: {ticket.Title}";
+
+                TicketHistory history = new()
+                {
+                    TicketId = ticket.Id,
+                    Property = model,
+                    OldValue = "",
+                    NewValue = "",
+                    Created = DateTimeOffset.Now,
+                    UserId = userId,
+                    Description = description
+
+                };
+
             }
             catch (Exception)
             {
