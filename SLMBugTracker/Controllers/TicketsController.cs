@@ -268,7 +268,7 @@ namespace SLMBugTracker.Controllers
             if (ModelState.IsValid)
             {
                 BTUser btUser = await _userManager.GetUserAsync(User);
-
+                Ticket oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
 
                 try
                 {
@@ -287,6 +287,8 @@ namespace SLMBugTracker.Controllers
                     }
                 }
                 //TODO: Add Ticket History
+                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+
                 return RedirectToAction(nameof(Index));
             }
 
