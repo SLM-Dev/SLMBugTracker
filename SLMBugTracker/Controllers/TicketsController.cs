@@ -19,22 +19,21 @@ namespace SLMBugTracker.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTProjectService _projectService;
         private readonly IBTLookupService _lookupService;
         private readonly IBTTicketService _ticketService;
         private readonly IBTFileService _fileService;
         private readonly IBTTicketHistoryService _historyService;
-        public TicketsController(ApplicationDbContext context,
-                                 UserManager<BTUser> userManager,
+        public TicketsController(UserManager<BTUser> userManager,
                                  IBTProjectService projectService,
                                  IBTLookupService lookupService,
                                  IBTTicketService ticketService,
                                  IBTFileService fileService, 
                                  IBTTicketHistoryService historyService)
         {
-            _context = context;
+            
             _userManager = userManager;
             _projectService = projectService;
             _lookupService = lookupService;
