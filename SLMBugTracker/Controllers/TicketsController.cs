@@ -17,6 +17,7 @@ using SLMBugTracker.Services.Interfaces;
 
 namespace SLMBugTracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         
