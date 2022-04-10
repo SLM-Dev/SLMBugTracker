@@ -479,7 +479,7 @@ namespace SLMBugTracker.Services
 
             try
             {
-                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(u => string.IsNullOrEmpty(u.DeveloperUserId)).ToList();
+                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).ToList();
                 return tickets;
             }
 
