@@ -454,6 +454,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Tickets/Restore/5
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -483,6 +484,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // POST: Tickets/Restore/5
+        [Authorize(Roles = "Admin,ProjectManager")]
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RestoreConfirmed(int id)
