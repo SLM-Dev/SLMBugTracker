@@ -97,6 +97,7 @@ namespace SLMBugTracker.Controllers
             else
             {
                 List<Ticket> pmTickets = new();
+                
                 foreach(Ticket ticket in tickets)
                 {
                     if(await _projectService.IsAssignedProjectManagerAsync(btUserId, ticket.ProjectId))
@@ -109,6 +110,7 @@ namespace SLMBugTracker.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
@@ -120,7 +122,7 @@ namespace SLMBugTracker.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "Admin,ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -409,6 +411,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Tickets/Archive/5
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -438,6 +441,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // POST: Tickets/Archive/5
+        [Authorize(Roles = "Admin,ProjectManager")]
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchiveConfirmed(int id)
