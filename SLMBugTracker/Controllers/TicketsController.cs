@@ -346,9 +346,9 @@ namespace SLMBugTracker.Controllers
 
                     await _ticketService.AddTicketCommentAsync(ticketComment);
 
-
+                    //Add history
+                    await _historyService.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment), ticketComment.UserId);
                 }
-
                 catch (Exception)
                 {
                     throw;
