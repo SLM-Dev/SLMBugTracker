@@ -497,7 +497,8 @@ namespace SLMBugTracker.Controllers
         private async Task<bool> TicketExists(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(u => u.Id == id);
+          
+            return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(t => t.Id == id);
         }
     }
 }
