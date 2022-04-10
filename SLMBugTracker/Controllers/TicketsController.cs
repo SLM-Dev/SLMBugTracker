@@ -42,10 +42,7 @@ namespace SLMBugTracker.Controllers
             _historyService = historyService;
         }
 
-        // GET: Tickets
-        public async Task<IActionResult> Index()
-
-
+      
 
 
         public async Task<IActionResult> MyTickets()
