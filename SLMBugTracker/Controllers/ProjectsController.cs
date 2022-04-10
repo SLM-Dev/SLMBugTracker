@@ -304,9 +304,16 @@ namespace SLMBugTracker.Controllers
                     }
                     return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!await ProjectExists(model.Project.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
 
             }
