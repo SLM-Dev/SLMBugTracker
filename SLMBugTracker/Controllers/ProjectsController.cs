@@ -84,7 +84,7 @@ namespace SLMBugTracker.Controllers
             return View(projects);
         }
 
-
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> UnassignedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -95,6 +95,8 @@ namespace SLMBugTracker.Controllers
         
             return View(projects);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AssignPM(int projectId)
         {
@@ -109,6 +111,7 @@ namespace SLMBugTracker.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPM(AssignPMViewModel model)
@@ -122,7 +125,7 @@ namespace SLMBugTracker.Controllers
             return RedirectToAction(nameof(AssignPM), new { projectId = model.Project.Id });
         }
 
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignMembers(int id)
         {
@@ -145,7 +148,7 @@ namespace SLMBugTracker.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -181,6 +184,7 @@ namespace SLMBugTracker.Controllers
 
 
     // GET: Projects/Details/5
+
     public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -202,6 +206,7 @@ namespace SLMBugTracker.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Create()
         {
             int companyId = User.Identity.GetCompanyId().Value;
