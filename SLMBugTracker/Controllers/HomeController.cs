@@ -8,12 +8,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using SLMBugTracker.Services.Interfaces
 
 namespace SLMBugTracker.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -29,10 +31,10 @@ namespace SLMBugTracker.Controllers
         {
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
+            model.Company = await _companyInfoService.
 
 
-
-            return View(model);
+            return View(model); 
         }
 
         public IActionResult Privacy()
