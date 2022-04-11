@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
+using SLMBugTracker.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
