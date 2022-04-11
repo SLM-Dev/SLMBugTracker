@@ -26,6 +26,7 @@ namespace SLMBugTracker.Controllers
         public async Task<IActionResult> Dashboard()
         {
             DashboardViewModel model = new();
+            int companyId = User.Identity.GetCompanyId().Value;
         }
 
         public IActionResult Privacy()
