@@ -25,7 +25,7 @@ namespace SLMBugTracker.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-
+            DashboardViewModel model = new();
         }
 
         public IActionResult Privacy()
