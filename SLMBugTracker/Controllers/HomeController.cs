@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SLMBugTracker.Extensions;
 using SLMBugTracker.Models;
 using System;
 using System.Collections.Generic;
