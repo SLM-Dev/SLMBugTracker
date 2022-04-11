@@ -1,5 +1,14 @@
-﻿	ViewData["Title"] = "Dashboard";
-@* Instantiate the btUser *@
+﻿@model SLMBugTracker.Models.ViewModels.DashboardViewModel
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<BTUser> UserManager
+
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+    @* Instantiate the btUser *@
+
 }
 
 <h1>Dashboard</h1>
