@@ -33,7 +33,8 @@ namespace SLMBugTracker.Controllers
         {
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
-            model.Company = await _companyInfoService.
+            model.Company = await _companyInfoService.GetCompanyInfoByIdAsync(companyId);
+            model.Projects = (await _companyInfoService.GetAllProjectsAsync(companyId)).Where(p => p.Archived == false).ToList();
 
 
             return View(model); 
