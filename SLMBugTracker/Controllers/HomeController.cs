@@ -29,6 +29,10 @@ namespace SLMBugTracker.Controllers
         {
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
+
+
+
+            return View(model);
         }
 
         public IActionResult Privacy()
