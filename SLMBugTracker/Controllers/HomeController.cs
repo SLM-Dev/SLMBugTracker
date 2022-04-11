@@ -30,7 +30,7 @@ namespace SLMBugTracker.Controllers
         }
 
         public async Task<IActionResult> Dashboard()
-        {
+        {   
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
             model.Company = await _companyInfoService.GetCompanyInfoByIdAsync(companyId);
