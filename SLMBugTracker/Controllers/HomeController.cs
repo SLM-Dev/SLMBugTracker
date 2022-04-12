@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SLMBugTracker.Services.Interfaces;
 using SLMBugTracker.Models.Enums;
+using SLMBugTracker.Models.ChartModels;
 
 namespace SLMBugTracker.Controllers
 {
