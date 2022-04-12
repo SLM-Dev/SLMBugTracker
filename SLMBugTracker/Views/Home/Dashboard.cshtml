@@ -161,7 +161,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row gy-2">
             <div class="cols mt-5 bg-secondary">
                 <div class="card col m-1 p-2">
@@ -557,6 +557,29 @@
         </script>
 
         <!-- *** End AM Charts *** -->
+        <!--  Plotly Charts  -->
+        <!-- Load plotly.js into the DOM -->
+        <script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+        <script>
+            $.ajax({
+                type: "POST",
+                url: "/Home/PlotlyBarChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var data = result;
 
+                    var layout = { barmode: 'group' };
 
+                    Plotly.newPlot('plotlyChart', data, layout);
+                },
+                failure: function (result) {
+                    alert(result.d);
+                },
+                error: function (result) {
+                    alert(result.d);
+                }
+            });
+        </script>
     }
