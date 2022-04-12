@@ -171,7 +171,7 @@ namespace SLMBugTracker.Services
 
         }
 
-        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriorityAsync(int companyId, string priorityName)
         {
             List<Project> projects = await GetAllProjectsByCompanyAsync(companyId);
 
@@ -305,13 +305,14 @@ namespace SLMBugTracker.Services
                     }
 
                 }
+                return result;
+            
             }
-
+               
             catch (Exception)
             {
-                throw;
+                throw;        
             }
-                return result;
         }
             
 
