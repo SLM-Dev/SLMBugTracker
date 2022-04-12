@@ -92,10 +92,10 @@ namespace SLMBugTracker.Controllers
             List<Project> projects = new();
 
             projects = await _projectService.GetUnassignedProjectsAsync(companyId);
-        
+         
             return View(projects);
         }
-
+        
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AssignPM(int projectId)
