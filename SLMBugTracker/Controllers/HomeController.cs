@@ -21,7 +21,7 @@ namespace SLMBugTracker.Controllers
         private readonly IBTProjectService _projectService;
 
         public HomeController(ILogger<HomeController> logger,
-                              IBTCompanyInfoService companyInfoService, 
+                              IBTCompanyInfoService companyInfoService,
                               IBTProjectService projectService)
         {
             _logger = logger;
@@ -35,7 +35,7 @@ namespace SLMBugTracker.Controllers
         }
 
         public async Task<IActionResult> Dashboard()
-        {   
+        {
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
             model.Company = await _companyInfoService.GetCompanyInfoByIdAsync(companyId);
@@ -43,7 +43,7 @@ namespace SLMBugTracker.Controllers
             model.Tickets = model.Projects.SelectMany(p => p.Tickets).Where(t => t.Archived == false).ToList();
             model.Members = model.Company.Members.ToList();
 
-            return View(model); 
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -66,6 +66,7 @@ namespace SLMBugTracker.Controllers
 
             List<object> chartData = new();
             chartData.Add(new object[] { "ProjectName", "TicketCount" });
+
 
             foreach (Project prj in projects)
             {
