@@ -4,7 +4,7 @@
 @using SLMBugTracker.Models.Enums
 
 @inject UserManager<BTUser> UserManager
-@inject IBTRolesService RolesService 
+@inject IBTRolesService RolesService
 
 
 @{
@@ -12,6 +12,20 @@
     BTUser btUser = await UserManager.GetUserAsync(User);
 
 }
+
+
+<!-- Styles -->
+<style>
+    .amDark {
+        background-color: #30303d;
+        color: #fff;
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
 
 <h1>Dashboard</h1>
 <a href="javascript:void(0);">
@@ -138,9 +152,11 @@
         <div class="row gy-2">
             <div class="cols mt-5 bg-secondary">
                 <div class="card col m-1 p-2">
-                    <div class="card-body" style="height:380px">
-                        <h5>Chart 5</h5>
-                        <p>[Projects: Tickets vs Developers]</p>
+                    <div class="card-body" style="height:600px">
+                        <h5>Project: Tickets vs Developers</h5>
+                        <p>[amCharts]</p>
+                        <!-- HTML -->
+                        <div id="chartdiv"></div>
                     </div>
                 </div>
             </div>
