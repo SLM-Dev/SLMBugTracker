@@ -8,7 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using SLMBugTracker.Services.Interfaces
+using SLMBugTracker.Services.Interfaces;
+using SLMBugTracker.Models.Enums;
 
 namespace SLMBugTracker.Controllers
 {
