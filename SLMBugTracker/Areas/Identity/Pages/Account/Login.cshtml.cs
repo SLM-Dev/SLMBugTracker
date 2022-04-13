@@ -72,11 +72,12 @@ namespace SLMBugTracker.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string demoEmail = null)
         {
             returnUrl ??= Url.Content("~/Home/Dashboard");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+         
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         
             if (ModelState.IsValid)
             {
