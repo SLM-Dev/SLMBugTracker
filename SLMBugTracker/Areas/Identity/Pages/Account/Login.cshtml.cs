@@ -20,6 +20,7 @@ namespace SLMBugTracker.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
+        private readonly IConfiguration _configuration;
         private readonly SignInManager<BTUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
@@ -29,6 +30,7 @@ namespace SLMBugTracker.Areas.Identity.Pages.Account
             IConfiguration configuration)
         {
             _userManager = userManager;
+            _configuration = configuration;
             _signInManager = signInManager;
             _logger = logger;
         }
