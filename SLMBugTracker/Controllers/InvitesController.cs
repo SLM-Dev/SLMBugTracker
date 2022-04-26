@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SLMBugTracker.Data;
 using SLMBugTracker.Models;
-
+  
 namespace SLMBugTracker.Controllers
 {
     public class InvitesController : Controller
